@@ -36,5 +36,36 @@ resource "aws_instance" "Front" {
   ami = data.aws_ami.ubuntu.id
   instance_type = "t2.small"
   vpc_security_group_ids = [ aws_security_group.front-group.id, aws_security_group.common-group.id ]
-  
+  key_name = "vockey"
+  tags = {
+    Name = "Front"
+  }
+
 }
+
+resource "aws_eip" "front-elastic-ip" {
+  domain = "vpc"
+  instance = aws_instance.Front.id
+
+}
+
+/******************* ROUTE 53 ***************************************/
+
+resource "aws_route53_zone" "front-zone" {
+  name = "frontend.${var.dns}"
+
+  vpc {
+      vpc_id = data.aws_vpc.vpc.id
+      vpc_region = var.region
+  }
+}
+
+resource "aws_route53_record" "front-record" {
+  type = "A"
+  name = "frontend.${var.dns}"
+  records = [ aws_instance.Front.private_ip ]
+  zone_id = aws_route53_zone.front-zone.id
+  ttl = 300
+
+}
+
