@@ -21,7 +21,7 @@ resource "aws_security_group" "backend_sg" {
 
 resource "aws_vpc_security_group_ingress_rule" "backend_ssh" {
   security_group_id = aws_security_group.backend_sg.id
-  referenced_security_group_id = aws_security_group.bastion_sg.id
+  referenced_security_group_id = aws_security_group.backend_sg.id
   from_port = 22
   to_port = 22
   ip_protocol = "tcp"
@@ -29,7 +29,7 @@ resource "aws_vpc_security_group_ingress_rule" "backend_ssh" {
 
 resource "aws_vpc_security_group_ingress_rule" "backend_http" {
   security_group_id = aws_security_group.backend_sg.id
-  referenced_security_group_id = aws_security_group.frontend_sg.id
+  referenced_security_group_id = aws_security_group.front-group.id
   from_port = 80
   to_port = 80
   ip_protocol = "tcp"
@@ -42,7 +42,7 @@ resource "aws_vpc_security_group_egress_rule" "backend_egress" {
 }
 
 resource "aws_route53_record" "backend" {
-  zone_id = aws_route53_zone.private_zone.id
+  zone_id = aws_route53_zone.zone.id
   name = "backend.${var.domain_name}"
   type = "A"
   ttl = 300

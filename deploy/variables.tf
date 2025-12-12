@@ -1,4 +1,4 @@
-variable "dns" {
+variable "domain_name" {
   type = string
   default = "infernum-original.duckdns.org"
 }
@@ -6,9 +6,14 @@ variable "dns" {
 variable "region" {
   type = string
   default = "us-east-1"
+
 }
 
-
+variable "instance_type" {
+   description = "Tipo de instacia EC2"
+   type = string
+   default = "t2.large"
+}
 
 
 /************* DATA SOURCES *******************/

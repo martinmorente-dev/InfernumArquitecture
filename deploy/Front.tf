@@ -51,20 +51,12 @@ resource "aws_eip" "front-elastic-ip" {
 
 /******************* ROUTE 53 ***************************************/
 
-resource "aws_route53_zone" "front-zone" {
-  name = "frontend.${var.dns}"
-
-  vpc {
-      vpc_id = data.aws_vpc.vpc.id
-      vpc_region = var.region
-  }
-}
 
 resource "aws_route53_record" "front-record" {
   type = "A"
-  name = "frontend.${var.dns}"
+  name = "frontend.${var.domain_name}"
   records = [ aws_instance.Front.private_ip ]
-  zone_id = aws_route53_zone.front-zone.id
+  zone_id = aws_route53_zone.zone.id
   ttl = 300
 
 }

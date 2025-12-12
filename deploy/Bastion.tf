@@ -41,8 +41,8 @@ resource "aws_eip" "bastion-elastic-ip" {
 
 /********************** ROUTE 53 *********************************/
 
-resource "aws_route53_zone" "bastion-zone" {
-  name = "bastion.${var.dns}"
+resource "aws_route53_zone" "zone" {
+  name = var.domain_name
 
   vpc {
     vpc_id = data.aws_vpc.vpc
@@ -53,9 +53,9 @@ resource "aws_route53_zone" "bastion-zone" {
 
 resource "aws_route53_record" "bastion-record" {
   type = "A"
-  name = "bastion.${var.dns}"
+  name = "bastion.${var.domain_name}"
   records = [ aws_instance.Bastion.private_ip ]
-  zone_id = aws_route53_zone.bastion-zone.id
+  zone_id = aws_route53_zone.zone.id
   ttl = 300
 
 }
