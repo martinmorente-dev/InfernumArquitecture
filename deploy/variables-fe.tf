@@ -3,7 +3,10 @@ variable "dns" {
   default = "infernum-original.duckdns.org"
 }
 
-
+variable "region" {
+  type = string
+  default = "us-east-1"
+}
 
 
 
@@ -29,4 +32,10 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"]
 
 
+}
+
+
+data "aws_vpc" "vpc" {
+  region = var.region
+  default = true
 }
