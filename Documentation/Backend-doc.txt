@@ -1,0 +1,11 @@
+Hola muy buenas, debido a que no podréis disfrutar de mi maravillosa presencia, iré poniendo en este documento todo lo realizado durante el sprint y lo que vaya a realizar para el siguiente sprint. Así como una breve explicación de que hice y como lo hice a modo de guía para Cristian
+
+Actividades realizadas en el sprint Actual:
+
+--> Me puse al día con Laravel API siguiendo el siguiente tutorial: https://www.bing.com/videos/riverview/relatedvideo?q=laravel+api+rest+youtube+rincon+isma&&mid=EAD20FEE5116F9FCB8BCEAD20FEE5116F9FCB8BC&FORM=VAMGZC 
+
+Actividades a realizar para el siguiente sprint:
+
+--> En el siguiente sprint empezaré con la creación de los endpoints para el registro y login de la aplicación, ya aquí desarrollándolo con Laravel.
+
+
