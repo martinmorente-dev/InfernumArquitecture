@@ -11,7 +11,6 @@ class User extends Authenticatable
     use HasFactory, HasApiTokens;
 
     protected $table = 'users';
-    protected $primaryKey = 'userId';
 
     const UPDATED_AT = null;
 
