@@ -21,5 +21,15 @@ class User extends Authenticatable
         'role'
     ];
 
+    protected $hidden = ['password'];
+
+
+    protected function casts(): array
+    {
+        return[
+            'password' => 'hashed',
+        ];
+    }
+
     // TODO: N:M rellation between Users and Libraries
 }
