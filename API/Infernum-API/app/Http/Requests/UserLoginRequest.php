@@ -5,27 +5,17 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 
-/**
- * @OA\Schema(
- *     schema="UserLoginRequest",
- *     type="object",
- *     required={"email","password"},
- *     @OA\Property(
- *         property="email",
- *         type="string",
- *         format="email",
- *         example="user@example.com"
- *     ),
- *     @OA\Property(
- *         property="password",
- *         type="string",
- *         format="password",
- *         example="secret123"
- *     )
- * )
- */
+#[OA\Schema(
+    schema: 'UserLoginRequest',
+    type: 'object',
+    properties: [
+        new OA\Property(property: 'email', type: 'string', format: 'email', example: 'user@example.com'),
+        new OA\Property(property: 'password', type: 'string', example: 'password123'),
+    ],
+    required: ['email', 'password']
+)]
 class UserLoginRequest extends FormRequest
 {
     public function authorize(): bool

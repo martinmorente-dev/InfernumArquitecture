@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserLoginRequest;
@@ -11,48 +11,56 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
 
-/**
- * @OA\Info(
- *     title="Infernum API",
- *     version="0.1",
- *     description="Documentación de la API Infernum"
- * )
- *
- * @OA\Server(
- *     url=L5_SWAGGER_CONST_HOST,
- *     description="Servidor API"
- * )
- */
+#[OA\Info(
+    title: 'Infernum API',
+    version: '0.1',
+    description: 'Documentación de la API Infernum'
+)]
+#[OA\Server(
+    url: 'http://localhost:1606/api',
+    description: 'Servidor API'
+)]
+#[OA\SecurityScheme(
+    securityScheme: 'sanctum',
+    type: 'http',
+    scheme: 'bearer',
+    bearerFormat: 'Sanctum',
+    description: '**🔐 AUTORIZAR - Introduce tu TOKEN AQUÍ**\n\n1. **POST /v1/login** → copia `token`\n2. **PEGA aquí:** `Bearer 1|abc123...`\n3. **Clic Authorize** ✅\n\n**EJEMPLO:** `Bearer 1|abc123def456ghi789`',
+)]
 class UserController extends Controller
 {
-    /**
-     * @OA\Post(
-     *     path="/v1/login",
-     *     operationId="loginUser",
-     *     tags={"Auth"},
-     *     summary="Iniciar sesión de usuario",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/UserLoginRequest")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Login exitoso",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="Successfull"),
-     *             @OA\Property(property="user", ref="#/components/schemas/UserResource"),
-     *             @OA\Property(property="token", type="string", example="1|abc123...")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Credenciales incorrectas",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="Error: Incorrect credentials")
-     *         )
-     *     )
-     * )
-     */
+    #[OA\Post(
+        path: '/v1/login',
+        operationId: 'loginUser',
+        tags: ['Auth'],
+        summary: 'Iniciar sesión de usuario',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: '#/components/schemas/UserLoginRequest')
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Login exitoso',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'Successfull'),
+                        new OA\Property(property: 'user', ref: '#/components/schemas/UserResource'),
+                        new OA\Property(property: 'token', type: 'string', example: '1|abc123...')
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'Credenciales incorrectas',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'Error: Incorrect credentials')
+                    ]
+                )
+            )
+        ]
+    )]
     public function login(UserLoginRequest $request): JsonResponse
     {
         $user = User::where('email', $request->email)->first();
@@ -70,36 +78,40 @@ class UserController extends Controller
         ], 200);
     }
 
-    /**
-     * @OA\Post(
-     *     path="/v1/register",
-     *     operationId="registerUser",
-     *     tags={"Auth"},
-     *     summary="Registrar nuevo usuario",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/UserRegisterRequest")
-     *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="Usuario creado",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="Successfull"),
-     *             @OA\Property(property="created-user", ref="#/components/schemas/UserResource"),
-     *             @OA\Property(property="token", type="string", example="1|abc123...")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=422,
-     *         description="Datos inválidos",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="Error"),
-     *             @OA\Property(property="message", type="string", example="Bad data"),
-     *             @OA\Property(property="errors", type="object")
-     *         )
-     *     )
-     * )
-     */
+    #[OA\Post(
+        path: '/v1/register',
+        operationId: 'registerUser',
+        tags: ['Auth'],
+        summary: 'Registrar nuevo usuario',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: '#/components/schemas/UserRegisterRequest')
+        ),
+        responses: [
+            new OA\Response(
+                response: 201,
+                description: 'Usuario creado',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'Successfull'),
+                        new OA\Property(property: 'created-user', ref: '#/components/schemas/UserResource'),
+                        new OA\Property(property: 'token', type: 'string', example: '1|abc123...')
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 422,
+                description: 'Datos inválidos',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'Error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Bad data'),
+                        new OA\Property(property: 'errors', type: 'object')
+                    ]
+                )
+            )
+        ]
+    )]
     public function register(UserRegisterRequest $request): JsonResponse
     {
         $data = $request->validated();
@@ -115,28 +127,38 @@ class UserController extends Controller
         ], 201);
     }
 
-    /**
-     * @OA\Get(
-     *     path="/v1/user",
-     *     operationId="getAuthenticatedUser",
-     *     tags={"Usuario"},
-     *     security={{"sanctum":{}}},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Usuario OK",
-     *         @OA\JsonContent(ref="#/components/schemas/UserResource")
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="No autenticado",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="Error: No autenticado")
-     *         )
-     *     )
-     * )
-     */
+  #[OA\Get(
+        path: '/v1/user',
+        operationId: 'getAuthenticatedUser',
+        tags: ['Usuario'],
+        security: [['sanctum' => []]],
+        summary: 'Obtener usuario autenticado (TOKEN OBLIGATORIO)',
+        description: '**¡SIN TOKEN = 401!**\n\n1. **POST /v1/login** → copia token\n2. **Authorize** → pega `Bearer {token} en el candado`. **Ejecuta esta ruta** ✅',
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Usuario OK',
+                content: new OA\JsonContent(ref: '#/components/schemas/UserResource')
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'TOKEN requerido',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'Error: No autenticado')
+                    ]
+                )
+            )
+        ]
+    )]
+
+
+
     public function getUserAuthenticated(Request $request): JsonResponse
     {
-        return response()->json($request->user());
+        return response()->json([
+            'status' => 'Succesfull',
+            'user' => $request->user()
+        ]);
     }
 }
