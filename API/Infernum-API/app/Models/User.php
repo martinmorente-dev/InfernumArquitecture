@@ -21,7 +21,10 @@ class User extends Authenticatable
         'role'
     ];
 
-    protected $hidden = ['password'];
+    protected $hidden = [
+        'password',
+        'create_at'
+    ];
 
 
     protected function casts(): array
