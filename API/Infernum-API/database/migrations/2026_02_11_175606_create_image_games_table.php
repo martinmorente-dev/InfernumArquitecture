@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('game_images', function (Blueprint $table) {
+        Schema::create('images_games', function (Blueprint $table) {
             $table->id();
             $table->string('url', 500);
+            $table->enum('type', ['portrait', 'galery', 'description']),
             $table->foreignId('game_id')
                   ->constrained('games')
                   ->onUpdate('cascade')

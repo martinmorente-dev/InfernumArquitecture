@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Genres;
 use App\Models\ImageGames;
-use App\Models\OperativeSystems;
+use App\Models\Reqirements;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -31,10 +31,8 @@ class Games extends Model
     }
 
 
-    public function oprativeSystems(): BelongsToMany
+    public function requirements(): BelongsToMany
     {
-        return $this->belongsToMany(OperativeSystems::class)
-            ->as('requirements')
-            ->withPivot(['type', 'cpu', 'ram', 'gpu', 'storage']);
+        return $this->belongsToMany(Requirements::class);
     }
 }

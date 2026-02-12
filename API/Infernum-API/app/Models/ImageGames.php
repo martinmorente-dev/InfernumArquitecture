@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ImageGames extends Model
 {
     protected $fillable = [
-        'url'
+        'url',
+        'type'
     ];
 
 
