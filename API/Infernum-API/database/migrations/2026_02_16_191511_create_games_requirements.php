@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('image_games', function (Blueprint $table) {
+        Schema::create('games_requirements', function (Blueprint $table) {
             $table->id();
-            $table->string('url', 500);
-            $table->enum('type', ['portrait', 'gallery', 'description']);
             $table->foreignId('game_id')
-                  ->constrained('games')
-                  ->onUpdate('cascade')
-                  ->onDelete('cascade');
+                  ->constrained()
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+            $table->foreignId('requirement_id')
+                  ->constrained()
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
         });
     }
 
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('image_games');
+        Schema::dropIfExists('games_requirements');
     }
 };

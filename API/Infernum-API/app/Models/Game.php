@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Genres;
-use App\Models\ImageGames;
-use App\Models\Reqirements;
+use App\Models\Genre;
+use App\Models\ImageGame;
+use App\Models\Reqirement;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Games extends Model
+class Game extends Model
 {
     protected $fillable = [
         'name',
@@ -19,20 +19,20 @@ class Games extends Model
     ];
 
 
+    public $timestamps = false;
+
     public function genres(): BelongsToMany
     {
-        return $this->belongsToMany(Genres::class);
+        return $this->belongsToMany(Genre::class, 'games_genres');
     }
-
 
     public function images(): HasMany
     {
-        $this->hasMany(ImageGames::class);
+        $this->hasMany(ImageGame::class);
     }
-
 
     public function requirements(): BelongsToMany
     {
-        return $this->belongsToMany(Requirements::class);
+        return $this->belongsToMany(Requirement::class, 'games_requirements');
     }
 }

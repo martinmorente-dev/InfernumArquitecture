@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('requirements', function (Blueprint $table) {
             $table->id();
             $table->enum('type', ['minimun', 'recomended']);
-            $table->string('os', 30);
+            $table->string('os', 40);
             $table->string('cpu', 100);
             $table->string('ram', 20);
             $table->string('gpu', 100);

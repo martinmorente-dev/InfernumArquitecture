@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Games;
+use App\Models\Game;
 
-class Requirements extends Model
+class Requirement extends Model
 {
     protected $fillable = [
         'type',
@@ -16,8 +16,10 @@ class Requirements extends Model
         'storage'
     ];
 
+    public $timestamps = false;
+
     public function games(): BelongsToMany
     {
-        return $this->belongsToMany(Games::class);
+        return $this->belongsToMany(Game::class, 'games_requirements');
     }
 }

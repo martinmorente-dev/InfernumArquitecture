@@ -4,17 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Game;
 
-class ImageGames extends Model
+
+class ImageGame extends Model
 {
     protected $fillable = [
         'url',
-        'type'
+        'type',
+        'game_id'
     ];
 
+    public $timestamps = false;
 
     public function games(): BelongsTo
     {
-        $this->belongsTo(Games::class, 'game_id');
+        $this->belongsTo(Game::class, 'game_id');
     }
 }
