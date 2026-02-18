@@ -27,7 +27,6 @@ Dark Souls Remastered incluye el juego principal y el contenido descargable "Art
         ]);
 
         $game->genres()->attach([1,2,3,4]);
-        $game->requirements()->attach([1,2]);
     }
 
 

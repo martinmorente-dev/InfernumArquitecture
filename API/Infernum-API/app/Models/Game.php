@@ -31,8 +31,8 @@ class Game extends Model
         $this->hasMany(ImageGame::class);
     }
 
-    public function requirements(): BelongsToMany
+    public function requirements(): HasMany
     {
-        return $this->belongsToMany(Requirement::class, 'games_requirements');
+        return $this->hasMany(Requirement::class);
     }
 }

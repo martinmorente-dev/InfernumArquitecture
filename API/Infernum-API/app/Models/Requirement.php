@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Game;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Requirement extends Model
 {
@@ -18,8 +19,8 @@ class Requirement extends Model
 
     public $timestamps = false;
 
-    public function games(): BelongsToMany
+    public function games(): BelongsTo
     {
-        return $this->belongsToMany(Game::class, 'games_requirements');
+        return $this->belongsTo(Game::class);
     }
 }

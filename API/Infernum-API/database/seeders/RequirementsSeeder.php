@@ -20,7 +20,8 @@ class RequirementsSeeder extends Seeder
                 'cpu' => 'Intel Core i5-2300 2.8 GHz / AMD FX-6300, 3.5 GHz',
                 'ram' => '6 GB',
                 'gpu' => 'GeForce GTX 460, 1 GB / Radeon HD 6870, GB',
-                'storage' => '8 GB'
+                'storage' => '8 GB',
+                'game_id' => 1
             ],
             [
                 'type' => 'recomended',
@@ -28,7 +29,8 @@ class RequirementsSeeder extends Seeder
                 'cpu' => 'Inter core i5-4570 3.2 GHz / AMD FX-8350 4.2 GHz',
                 'ram' => '8 GB',
                 'gpu' => 'GeForce GTX 660, 2GB / Radeon HD 7870, 2GB',
-                'storage' => '8 GB'
+                'storage' => '8 GB',
+                'game_id' => 1
             ]
         ]);
     }

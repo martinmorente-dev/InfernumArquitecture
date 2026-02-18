@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('ram', 20);
             $table->string('gpu', 100);
             $table->string('storage', 20);
+            $table->foreignId('game_id')->constrained()
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
         });
     }
 
