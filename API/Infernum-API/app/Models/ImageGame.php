@@ -19,6 +19,6 @@ class ImageGame extends Model
 
     public function games(): BelongsTo
     {
-        $this->belongsTo(Game::class, 'game_id');
+        return $this->belongsTo(Game::class, 'game_id');
     }
 }

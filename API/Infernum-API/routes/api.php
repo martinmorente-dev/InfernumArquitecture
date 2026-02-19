@@ -12,6 +12,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers'], function
     Route::post('/register', [UserController::class, 'register']);
 
     // GameController
-    Route::get('/game/{id}', [GameController::class, 'getGame']);
+    Route::get('/game/{id}', [GameController::class, 'show']);
 
 });

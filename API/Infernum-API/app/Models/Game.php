@@ -28,7 +28,7 @@ class Game extends Model
 
     public function images(): HasMany
     {
-        $this->hasMany(ImageGame::class);
+        return $this->hasMany(ImageGame::class);
     }
 
     public function requirements(): HasMany

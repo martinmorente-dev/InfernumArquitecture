@@ -12,6 +12,50 @@
         }
     ],
     "paths": {
+        "/v1/game/{id}": {
+            "get": {
+                "tags": [
+                    "Game"
+                ],
+                "summary": "Obtener juego",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Juego obtenido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Succesfull"
+                                        },
+                                        "game": {
+                                            "$ref": "#/components/schemas/GameResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Juego no encontrado"
+                    }
+                }
+            }
+        },
         "/v1/login": {
             "post": {
                 "tags": [
@@ -226,6 +270,104 @@
                 },
                 "type": "object"
             },
+            "GameResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Dark Souls"
+                    },
+                    "short_description": {
+                        "type": "string",
+                        "example": "es un aclamado juego de rol de acción (ARPG) de fantasía oscura, desarrollado por FromSoftware"
+                    },
+                    "long_description": {
+                        "type": "string",
+                        "example": "Los juegos de Dark Souls se juegan en tercera persona y se centran en explorar entornos interconectados mientras se lucha contra enemigos con armas y magia . Los jugadores luchan contra jefes para avanzar en la historia, a la vez que interactúan con personajes no jugables."
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 39.99
+                    },
+                    "genres": {
+                        "$ref": "#/components/schemas/GenreResource"
+                    },
+                    "images": {
+                        "$ref": "#/components/schemas/ImageResource"
+                    },
+                    "requirements": {
+                        "$ref": "#/components/schemas/RequirementResource"
+                    }
+                },
+                "type": "object"
+            },
+            "GenreResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "Accion"
+                    },
+                    "principal": {
+                        "type": "boolean",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "ImageResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "url": {
+                        "type": "string",
+                        "example": "https://image.com"
+                    },
+                    "type": {
+                        "type": "enum",
+                        "example": "portrait"
+                    }
+                },
+                "type": "object"
+            },
+            "RequirementResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "type": {
+                        "type": "enum",
+                        "example": "min"
+                    },
+                    "os": {
+                        "type": "string",
+                        "example": "Windows 10"
+                    },
+                    "ram": {
+                        "type": "string",
+                        "example": "16 GB"
+                    },
+                    "gpu": {
+                        "type": "string",
+                        "example": "Nvidia Geforce 3060"
+                    },
+                    "storage": {
+                        "type": "string",
+                        "example": "10GB"
+                    }
+                },
+                "type": "object"
+            },
             "UserResource": {
                 "properties": {
                     "id": {
@@ -261,6 +403,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Game",
+            "description": "Game"
+        },
         {
             "name": "Auth",
             "description": "Auth"
