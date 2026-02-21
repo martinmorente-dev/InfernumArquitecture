@@ -26,13 +26,5 @@ class User extends Authenticatable
         'create_at'
     ];
 
-
-    protected function casts(): array
-    {
-        return[
-            'password' => 'hashed',
-        ];
-    }
-
     // TODO: N:M rellation between Users and Libraries
 }

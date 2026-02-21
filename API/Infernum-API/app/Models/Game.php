@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Genre;
 use App\Models\ImageGame;
-use App\Models\Reqirement;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -35,4 +34,15 @@ class Game extends Model
     {
         return $this->hasMany(Requirement::class);
     }
+
+    public function disscounts(): BelongsToMany
+    {
+        return $this->belongsToMany(Disscount::class, 'games_disscounts');
+    }
+
+    public function activeDisccounts(): BelongsToMany
+    {
+        return $this->belongsToMany(Disscount::class)->active();
+    }
+
 }

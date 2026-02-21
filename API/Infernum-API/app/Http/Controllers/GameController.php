@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Game;
 use App\Http\Resources\GameResource;
 use Illuminate\Http\JsonResponse;
@@ -12,8 +11,8 @@ class GameController extends Controller
 {
 
     #[OA\Get(
-        path: '/v1/game/{id}',
-        operationId: 'show',
+        path: '/v1/games/details/{id}',
+        operationId: 'details',
         tags: ['Game'],
         summary: 'Obtener juego',
         parameters: [
@@ -41,7 +40,7 @@ class GameController extends Controller
             )
         ]
     )]
-    public function show(int $id): JsonResponse
+    public function details(int $id): JsonResponse
     {
         $game = Game::with(['genres', 'images', 'requirements'])->find($id);
 
@@ -53,5 +52,7 @@ class GameController extends Controller
             'game' => new GameResource($game)
         ], 200);
     }
+
+
 
 }

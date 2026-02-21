@@ -12,13 +12,13 @@
         }
     ],
     "paths": {
-        "/v1/game/{id}": {
+        "/v1/games/details/{id}": {
             "get": {
                 "tags": [
                     "Game"
                 ],
                 "summary": "Obtener juego",
-                "operationId": "show",
+                "operationId": "details",
                 "parameters": [
                     {
                         "name": "id",

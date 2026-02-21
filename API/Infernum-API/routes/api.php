@@ -11,7 +11,11 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers'], function
     Route::post('/login', [UserController::class, 'login']);
     Route::post('/register', [UserController::class, 'register']);
 
-    // GameController
-    Route::get('/game/{id}', [GameController::class, 'show']);
+
+    // Games Route
+    Route::group(['prefix' => 'games', 'namespace' => 'App\Http\Controllers'], function() {
+        Route::get('/details/{id}', [GameController::class, 'show']);
+
+    });
 
 });
