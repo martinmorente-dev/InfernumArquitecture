@@ -61,3 +61,27 @@ resource "aws_route53_record" "front-record" {
 
 }
 
+
+
+/****************** Code deploy **********************************/
+
+
+resource "aws_codedeploy_app" "frontend" {
+  name = "frontend-app"
+}
+
+
+resource "aws_codedeploy_deployment_group" "frontend" {
+ app_name   = aws_code_deploy_app.frontend.name
+ deployment_group_name = "frontend-group"
+ service_role_arn = aws_iam_role.codedeploy.arn
+
+ ec2_tag_filter {
+  type = "tag-key"
+  value = "Deploy"
+  key = "web"
+ }
+
+}
+
+

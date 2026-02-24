@@ -6,9 +6,9 @@ terraform {
     }
   }
     backend "s3" {
-        bucket = "infernum-bucket"
+        bucket = "infernum-bucket2"
         key = "vockey"
-        region = var.region
+        region = "us-east-1"
         encrypt = true
     }
 
@@ -18,5 +18,5 @@ terraform {
 
 
 provider "aws" {
-    region = var.region
+    region = "us-east-1"
 }

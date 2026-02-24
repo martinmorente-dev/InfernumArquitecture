@@ -48,3 +48,25 @@ resource "aws_route53_record" "backend" {
   ttl = 300
   records = [aws_instance.backend.private_ip]
 }
+
+
+/************** Code deploy ****************************/
+
+resource "aws_codedeploy_app" "backend" {
+  name = "backend-app"
+}
+
+
+resource "aws_codedeploy_deployment_group" "backend" {
+  app_name = aws_codedeploy_app.backend.name
+  deployment_group_name = "backend-group"
+  service_role_arn = aws_iam_role.codedeploy.arn
+
+  ec2_tag_filter {
+    type = "tag-key"
+    value = "Deploy"
+    key = "api"
+  }
+
+}
+
