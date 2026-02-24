@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Disscount extends Model
 {
@@ -17,9 +17,9 @@ class Disscount extends Model
 
     public $timestamps = false;
 
-    public function games(): BelongsToMany
+    public function games(): BelongsTo
     {
-        return $this->belongsToMany(Game::class, 'games_disscounts');
+        return $this->belongsTo(Game::class);
     }
 
 }

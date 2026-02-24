@@ -18,6 +18,9 @@ return new class extends Migration
             $table->timestamp('valid_at');
             $table->timestamp('expires_at');
             $table->boolean('active');
+            $table->foreignId('game_id')->constrained()
+                         ->onDelete('cascade')
+                         ->onUpdate('cascade');
         });
     }
 

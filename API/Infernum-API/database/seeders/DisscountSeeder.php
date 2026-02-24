@@ -18,7 +18,8 @@ class DisscountSeeder extends Seeder
                 'percentage' => '20',
                 'valid_at' => now()->addDays(2),
                 'expires_at' => now()->addMonth(6),
-                'active' => false
+                'active' => false,
+                'game_id' => 1
             ]);
     }
 }
