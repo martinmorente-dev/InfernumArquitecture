@@ -87,6 +87,8 @@ class GameController extends Controller
                                 new OA\Property(property: 'from', type: 'integer', example: 1),
                                 new OA\Property(property: 'to', type: 'integer', example: 1),
                                 new OA\Property(property: 'has_next_page', type: 'boolean', example: false),
+                                new OA\Property(property: 'next_page', type: 'string', example: 'http://next_page'),
+                                new OA\Property(property: 'previous_page', type: 'string', example: 'http://previous_page')
                             ]
                         )
                     ]
@@ -108,7 +110,9 @@ class GameController extends Controller
                 'last_page' => $games->lastPage(),
                 'from' => $games->firstItem(),
                 'to' => $games->lastItem(),
-                'has_next_page' => $games->hasMorePages()
+                'has_more_page' => $games->hasMorePages(),
+                'next_page' => $games->nextPageUrl(),
+                'previous_page' => $games->previousPageUrl()
             ]
         ]);
     }

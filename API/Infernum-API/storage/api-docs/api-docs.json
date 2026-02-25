@@ -117,6 +117,14 @@
                                                 "has_next_page": {
                                                     "type": "boolean",
                                                     "example": false
+                                                },
+                                                "next_page": {
+                                                    "type": "string",
+                                                    "example": "http://next_page"
+                                                },
+                                                "previous_page": {
+                                                    "type": "string",
+                                                    "example": "http://previous_page"
                                                 }
                                             },
                                             "type": "object"
