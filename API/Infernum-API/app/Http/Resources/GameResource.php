@@ -53,7 +53,7 @@ class GameResource extends JsonResource
             'requirements' => RequirementResource::collection(
                 $this->whenLoaded('requirements')
             ),
-            'discounts' => new DiscountResource(
+            'discount' => new DiscountResource(
                 $this->whenLoaded('discounts')
             )
         ];

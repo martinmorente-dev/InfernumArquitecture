@@ -270,6 +270,32 @@
                 },
                 "type": "object"
             },
+            "DiscountResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "percentage": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 20
+                    },
+                    "valid_at": {
+                        "type": "timestamp",
+                        "example": 0.0029615004935834156
+                    },
+                    "expires_at": {
+                        "type": "timestamp",
+                        "example": 0.0009871668311944718
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
             "GameResource": {
                 "properties": {
                     "id": {
@@ -293,6 +319,11 @@
                         "format": "float",
                         "example": 39.99
                     },
+                    "final_price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 20.99
+                    },
                     "genres": {
                         "$ref": "#/components/schemas/GenreResource"
                     },
@@ -301,6 +332,9 @@
                     },
                     "requirements": {
                         "$ref": "#/components/schemas/RequirementResource"
+                    },
+                    "discounts": {
+                        "$ref": "#/components/schemas/DiscountResource"
                     }
                 },
                 "type": "object"
