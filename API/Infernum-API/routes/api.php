@@ -14,7 +14,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers'], function
 
     // Games Route
     Route::group(['prefix' => 'games', 'namespace' => 'App\Http\Controllers'], function() {
-        Route::get('/details/{id}', [GameController::class, 'show']);
+        Route::get('/details/{id}', [GameController::class, 'details']);
 
     });
 

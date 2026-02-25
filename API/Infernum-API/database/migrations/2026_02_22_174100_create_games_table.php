@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('disscounts', function (Blueprint $table) {
+        Schema::create('games', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->decimal('percentage', 5, 2);
-            $table->timestamp('valid_at');
-            $table->timestamp('expires_at');
-            $table->boolean('active');
-            $table->foreignId('game_id')->constrained()
+            $table->string('name', 255);
+            $table->string('short_description', 300);
+            $table->longText('long_description');
+            $table->float('price');
+            $table->foreignId('discounts_id')->constrained()
                          ->onDelete('cascade')
                          ->onUpdate('cascade');
         });
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('disscounts');
+        Schema::dropIfExists('games');
     }
 };

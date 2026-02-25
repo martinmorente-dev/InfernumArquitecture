@@ -42,11 +42,10 @@ class GameController extends Controller
     )]
     public function details(int $id): JsonResponse
     {
-        $game = Game::with(['genres', 'images', 'requirements'])->find($id);
+        $game = Game::with(['genres', 'images', 'requirements', 'discounts'])->find($id);
 
         if (!$game)
             return response()->json(['status' => 'Error: Game not found'], 404);
-
         return response()->json([
             'status' => 'Succesfull',
             'game' => new GameResource($game)
@@ -54,5 +53,6 @@ class GameController extends Controller
     }
 
 
+    
 
 }
