@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Game;
 use App\Http\Resources\GameResource;
 use App\Http\Resources\GameListResource;
+use App\Filters\GameFilter;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -170,7 +171,6 @@ class GameController extends Controller
         
         if ($games->isEmpty())
             return response()->json(['status' => 'Error: Game not found'], 404);
-      
         return response()->json([
             'status' => 'Succesfull',
             'game' => GameListResource::collection($games),
@@ -188,4 +188,15 @@ class GameController extends Controller
         ], 200);
     }
 
+    public function filterGame(Request $request): JsonResponse
+    {
+        $filter = new GameFilter();
+        $queryItems = $filter->transform($request);
+
+        $games = Game::with(['genres', 'discounts'])->where($queryItems);
+        return response()->json([
+            'status' => 'Succesful',
+            'games' => GameListResource::collection($games->paginate()->withQueryString())
+        ]);
+    }
 }

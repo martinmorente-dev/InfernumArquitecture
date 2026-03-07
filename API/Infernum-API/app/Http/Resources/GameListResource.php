@@ -41,7 +41,7 @@ class GameListResource extends JsonResource
             'name' => $this->name,
             'short_description' => $this->short_description,
             'price' => $this->price,
-            'final_prince' => $finalPrice,
+            'final_prince' => round($finalPrice, 2),
             'genres' => GenreResource::collection(
                 $this->whenLoaded('genres')
             ),
