@@ -223,6 +223,92 @@
                 }
             }
         },
+        "/v1/games/filter": {
+            "get": {
+                "tags": [
+                    "Game"
+                ],
+                "summary": "Filtrar juegos",
+                "operationId": "filterGame",
+                "parameters": [
+                    {
+                        "name": "price[gt]",
+                        "in": "query",
+                        "description": "Precio minimo (mayor que)",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Juegos obtenidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Succesfull"
+                                        },
+                                        "game": {
+                                            "$ref": "#/components/schemas/GameListResource"
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "from": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "to": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "has_next_page": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "next_page": {
+                                                    "type": "string",
+                                                    "example": "http://next_page"
+                                                },
+                                                "previous_page": {
+                                                    "type": "string",
+                                                    "example": "http://previous_page"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ningun juego correspode con el filtro"
+                    }
+                }
+            }
+        },
         "/v1/login": {
             "post": {
                 "tags": [

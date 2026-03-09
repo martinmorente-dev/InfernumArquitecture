@@ -14,6 +14,4 @@ class GameFilter extends ApiFilter
         'gt' => '>',
         'lt' => '<'
     ];
-
-    
 }

@@ -9,7 +9,7 @@ services:
     depends_on:
       - "db"
   db:
-    image: mysql:8.0
+    image: docker.io/library/mysql:8.0
     container_name: mysql
     ports:
       - "1607:3306"
