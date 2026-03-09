@@ -53,11 +53,12 @@ class UserController extends Controller
             return response()->json(['status' => 'Error: Incorrect credentials'], 401);
         }
 
-        $token = $user->createToken('client', ['buy', 'social'])->plainTextToken;
+        $token = $user->createToken('client', ['buy', 'social'], now()->plus(3))->plainTextToken;
 
         return response()->json([
             'status' => 'Successfull',
             'user' => UserResource::make($user),
+            'expires_in_minutes' => 3,
             'token' => $token
         ], 200);
     }
@@ -79,8 +80,9 @@ class UserController extends Controller
                     properties: [
                         new OA\Property(property: 'status', type: 'string', example: 'Successfull'),
                         new OA\Property(property: 'created-user', ref: '#/components/schemas/UserResource'),
+                        new OA\Property(property: 'expires_in_minutes', type: 'string', example: '3'),
                         new OA\Property(property: 'token', type: 'string', example: '1|abc123...')
-                    ]
+                        ]
                 )
             ),
             new OA\Response(
@@ -91,7 +93,7 @@ class UserController extends Controller
                         new OA\Property(property: 'status', type: 'string', example: 'Error'),
                         new OA\Property(property: 'message', type: 'string', example: 'Bad data'),
                         new OA\Property(property: 'errors', type: 'object')
-                    ]
+                        ]
                 )
             )
         ]
@@ -102,11 +104,12 @@ class UserController extends Controller
         $data['role'] = 'client';
 
         $user = User::create($data);
-        $token = $user->createToken('client', ['buy', 'social'])->plainTextToken;
+        $token = $user->createToken('client', ['buy', 'social'], now()->plus(3))->plainTextToken;
 
         return response()->json([
             'status' => 'Successfull',
-            'created-user' => UserResource::make($user),
+            'created_user' => UserResource::make($user),
+            'expires_in_minutes' => 3,
             'token' => $token
         ], 201);
     }
@@ -135,9 +138,6 @@ class UserController extends Controller
             )
         ]
     )]
-
-
-
     public function getUserAuthenticated(Request $request): JsonResponse
     {
         return response()->json([
