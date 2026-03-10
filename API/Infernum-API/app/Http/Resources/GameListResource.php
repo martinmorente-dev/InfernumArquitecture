@@ -31,7 +31,7 @@ class GameListResource extends JsonResource
  
     public function toArray(Request $request): array
     {
-        $discount = $this->activeDiscounts()->first();
+        $discount = $this->scopeActiveDiscounts()->first();
 
         $finalPrice = $discount ? $this->price - ($this->price * $discount->percentage / 100) : $this->price;
         

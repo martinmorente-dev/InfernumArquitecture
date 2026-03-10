@@ -24,6 +24,7 @@ class Game extends Model
 
     public $timestamps = false;
 
+
     public function genres(): BelongsToMany
     {
         return $this->belongsToMany(Genre::class, 'games_genres');
@@ -44,9 +45,17 @@ class Game extends Model
         return $this->belongsTo(Discount::class);
     }
 
-    public function activeDiscounts(): BelongsTo
+
+    public function scopeActiveDiscounts(): BelongsTo
     {
         return $this->belongsTo(Discount::class)->active();
     }
 
+
+    public function scopeGameByGenre($query, string $genreName)
+    {
+        return $query->whereHas('genres', function ($q) use ($genreName) {
+            $q->where('type', $genreName);
+         });
+    }
 }

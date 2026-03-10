@@ -197,9 +197,16 @@ class GameController extends Controller
             new OA\Parameter(
                 name: 'price[gt]',
                 in: 'query',
-                required: true,
+                required: false,
                 description: 'Precio minimo (mayor que)',
                 schema: new OA\Schema(type: 'number', example: 10)
+            ),
+            new OA\Parameter(
+                name: 'genre',
+                in: 'query',
+                required: false,
+                description: 'Juego que coincida con el genero',
+                schema: new OA\Schema(type: 'string', example: 'Rol')
             )
         ],
         responses: [
@@ -238,12 +245,17 @@ class GameController extends Controller
     {
         $filter = new GameFilter();
         $queryItems = $filter->transform($request);
+        $query = Game::with(['discounts']);
 
-        $games = Game::with(['genres', 'discounts'])
-            ->where($queryItems)
-            ->paginate()
-            ->appends(request()->query());
-        
+        if (!empty($queryItems))
+            $query->where($queryItems);
+
+        if ($request->filled('genre'))
+            $query->gameByGenre($request->genre);
+
+         $games = $query->paginate()->appends(request()->query());
+        if (!$games)
+            return response()->json(['status' => 'Failure: Game not found by the filter given'], 404);
         return response()->json([
             'status' => 'Succesful',
             'games' => GameListResource::collection($games),

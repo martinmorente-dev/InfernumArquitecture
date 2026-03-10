@@ -1,17 +1,21 @@
 <?php
 
 namespace App\Filters;
+
 use Illuminate\Http\Request;
 use App\Filters\ApiFilter;
 
 class GameFilter extends ApiFilter
 {
     protected $safeParams = [
-        'price' => ['gt', 'lt']
+        'price' => ['gt', 'lt'],
+        'name' => ['eq'],
+        'genre' => ['eq']
     ];
     protected $columnMap = [];
     protected $operatorMap = [
         'gt' => '>',
-        'lt' => '<'
+        'lt' => '<',
+        'eq' => '='
     ];
 }
