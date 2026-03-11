@@ -11,8 +11,7 @@ class Discount extends Model
         'name',
         'percentage',
         'valid_at',
-        'expires_at',
-        'active'
+        'expires_at'
     ];
 
     public $timestamps = false;
@@ -24,9 +23,8 @@ class Discount extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('active', true)
-        ->where('valid_at', '<=', now())
-        ->where('expires_at', '>=', now());
+        return $query->where('valid_at', '<=', now())
+                    ->where('expires_at', '>=', now());
     }
 
 }

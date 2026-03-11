@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('requirements', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['minimun', 'recomended']);
-            $table->string('os', 40);
-            $table->string('cpu', 100);
+            $table->enum('type', ['minimum', 'recommended']);
+            $table->string('os', 100);
+            $table->string('cpu', 150);
             $table->string('ram', 20);
-            $table->string('gpu', 100);
+            $table->string('gpu', 150);
             $table->string('storage', 20);
             $table->foreignId('game_id')->constrained()
                     ->onDelete('cascade')

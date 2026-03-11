@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('short_description', 300);
             $table->longText('long_description');
             $table->float('price');
-            $table->foreignId('discounts_id')->constrained()
+            $table->foreignId('discounts_id')->nullable()
+                         ->constrained()
                          ->onDelete('cascade')
                          ->onUpdate('cascade');
         });

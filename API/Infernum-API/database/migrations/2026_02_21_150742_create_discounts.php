@@ -17,7 +17,6 @@ return new class extends Migration
             $table->decimal('percentage', 5, 2);
             $table->timestamp('valid_at');
             $table->timestamp('expires_at');
-            $table->boolean('active');
         });
     }
 

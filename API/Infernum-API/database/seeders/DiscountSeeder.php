@@ -12,13 +12,19 @@ class DiscountSeeder extends Seeder
      */
     public function run(): void
     {
-        Discount::create(
+        Discount::insert([
             [
                 'name' => 'Descuentos Verano',
                 'percentage' => '20',
-                'valid_at' => now()->addDays(2),
+                'valid_at' => now(),
                 'expires_at' => now()->addMonth(6),
-                'active' => false
-            ]);
+            ],
+            [
+                'name' => 'Descuentos Ubisoft',
+                'percentage' => '75',
+                'valid_at' => now(),
+                'expires_at' => now()->addMonth(6),
+            ]
+        ]);
     }
 }

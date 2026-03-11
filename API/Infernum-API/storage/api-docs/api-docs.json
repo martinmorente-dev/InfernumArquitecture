@@ -235,10 +235,20 @@
                         "name": "price[gt]",
                         "in": "query",
                         "description": "Precio minimo (mayor que)",
-                        "required": true,
+                        "required": false,
                         "schema": {
                             "type": "number",
                             "example": 10
+                        }
+                    },
+                    {
+                        "name": "genre",
+                        "in": "query",
+                        "description": "Juego que coincida con el genero",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Rol"
                         }
                     }
                 ],
@@ -304,7 +314,7 @@
                         }
                     },
                     "404": {
-                        "description": "Ningun juego correspode con el filtro"
+                        "description": "Game not found by the filter given"
                     }
                 }
             }
@@ -399,6 +409,10 @@
                                         },
                                         "created-user": {
                                             "$ref": "#/components/schemas/UserResource"
+                                        },
+                                        "expires_in_minutes": {
+                                            "type": "string",
+                                            "example": "3"
                                         },
                                         "token": {
                                             "type": "string",
@@ -640,10 +654,6 @@
                     "type": {
                         "type": "string",
                         "example": "Accion"
-                    },
-                    "principal": {
-                        "type": "boolean",
-                        "example": 1
                     }
                 },
                 "type": "object"

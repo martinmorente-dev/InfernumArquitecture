@@ -16,21 +16,95 @@ class GenresSeeder extends Seeder
         Genre::insert([
 
             [
-                'type' => 'Tipo <<Dark Souls>>',
-                'principal' => true
+                'type' => 'Tipo <<Dark Souls>>'
             ],
             [
-                'type' => 'Fantasia oscura',
-                'principal' => false
+                'type' => 'Fantasia oscura'
             ],
             [
-                'type' => 'Rol',
-                'principal' => false
+                'type' => 'Rol'
             ],
             [
-                'type' => 'Dificiles',
-                'principal' => false
-            ]
+                'type' => 'Dificiles'
+            ],
+            [
+                'type' => 'Survival Horror'
+            ],
+            [
+                'type' => 'Zombies'
+            ],
+            [
+                'type' => 'Horror'
+            ],
+            [
+                'Third-Person Shooter'
+            ],
+            [
+                'type' => 'Ciencia ficción'
+            ],     
+            [
+                'type' => 'Cyberpunk'
+            ],           
+            [
+                'type' => 'Mundo abierto'
+            ],        
+            [
+                'type' => 'Turnos'
+            ],               
+            [
+                'type' => 'Simulación'
+            ],           
+            [
+                'type' => 'Granja'
+            ],               
+            [
+                'type' => 'Rogue-like'
+            ],           
+            [
+                'type' => 'FPS'
+            ],                  
+            [
+                'type' => 'Acción'
+            ],               
+            [
+                'type' => 'Deducción social'
+            ],     
+            [
+                'type' => 'Multijugador'
+            ],         
+            [
+                'type' => 'Crimen'
+            ],               
+            [
+                'type' => 'Western'
+            ],              
+            [
+                'type' => 'Aventura'
+            ],             
+            [
+                'type' => 'Mitología'
+            ],            
+            [
+                'type' => 'Puzles'
+            ],               
+            [
+                'type' => 'Narrativa'
+            ],            
+            [
+                'type' => 'Plataformas'
+            ],          
+            [
+                'type' => 'Metroidvania'
+            ],         
+            [
+                'type' => 'Superhéroes'
+            ],          
+            [
+                'type' => 'Sigilo'
+            ],               
+            [
+                'type' => 'Post-apocalíptico'
+            ]     
         ]);
     }
 }

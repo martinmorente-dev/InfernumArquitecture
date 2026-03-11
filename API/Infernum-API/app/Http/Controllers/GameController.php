@@ -237,7 +237,7 @@ class GameController extends Controller
             ),
             new OA\Response(
                 response: 404,
-                description: 'Ningun juego correspode con el filtro'
+                description: 'Game not found by the filter given'
             )
         ]
     )]
@@ -254,8 +254,10 @@ class GameController extends Controller
             $query->gameByGenre($request->genre);
 
          $games = $query->paginate()->appends(request()->query());
-        if (!$games)
+
+         if ($games->isEmpty())
             return response()->json(['status' => 'Failure: Game not found by the filter given'], 404);
+
         return response()->json([
             'status' => 'Succesful',
             'games' => GameListResource::collection($games),

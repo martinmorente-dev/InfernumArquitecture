@@ -42,13 +42,13 @@ class Game extends Model
 
     public function discounts(): BelongsTo
     {
-        return $this->belongsTo(Discount::class);
+        return $this->belongsTo(Discount::class, 'discounts_id');
     }
 
 
-    public function scopeActiveDiscounts(): BelongsTo
+    public function getActiveDiscounts()
     {
-        return $this->belongsTo(Discount::class)->active();
+        return $this->discounts()->active()->first();
     }
 
 

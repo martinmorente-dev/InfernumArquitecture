@@ -9,8 +9,7 @@ use App\Models\Game;
 class Genre extends Model
 {
     protected $fillable = [
-        'type',
-        'principal'
+        'type'
     ];
 
     public $timestamps = false;
