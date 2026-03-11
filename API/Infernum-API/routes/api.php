@@ -18,6 +18,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers'], function
         Route::get('/all/{pagination?}', [GameController::class, 'all']);
         Route::get('/name', [GameController::class, 'searchByName']);
         Route::get('/filter', [GameController::class, 'filterGame']);
+        Route::get('/most-bought', [GameController::class, 'gameMostBought']);
     });
 
 });

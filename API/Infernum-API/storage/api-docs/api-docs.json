@@ -319,6 +319,39 @@
                 }
             }
         },
+        "/v1/games/most-bought": {
+            "get": {
+                "tags": [
+                    "Game"
+                ],
+                "summary": "Juego mas comprado",
+                "operationId": "gameMostBought",
+                "responses": {
+                    "200": {
+                        "description": "Juego obtenido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Succesfull"
+                                        },
+                                        "game": {
+                                            "$ref": "#/components/schemas/GameListResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Games were not bought yet"
+                    }
+                }
+            }
+        },
         "/v1/login": {
             "post": {
                 "tags": [
@@ -592,9 +625,6 @@
                     },
                     "images": {
                         "$ref": "#/components/schemas/ImageResource"
-                    },
-                    "requirements": {
-                        "$ref": "#/components/schemas/RequirementResource"
                     },
                     "discounts": {
                         "$ref": "#/components/schemas/DiscountResource"

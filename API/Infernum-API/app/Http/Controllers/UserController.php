@@ -49,11 +49,10 @@ class UserController extends Controller
     {
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password))
             return response()->json(['status' => 'Error: Incorrect credentials'], 401);
-        }
 
-        $token = $user->createToken('client', ['buy', 'social'], now()->plus(3))->plainTextToken;
+        $token = $user->createToken('client', ['buy', 'cart', 'library'], now()->plus(3))->plainTextToken;
 
         return response()->json([
             'status' => 'Successfull',

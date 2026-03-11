@@ -22,7 +22,6 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'final_price', type: 'float', example: 20.99),
         new OA\Property(property: 'genres', ref: '#/components/schemas/GenreResource'),
         new OA\Property(property: 'images', ref: '#/components/schemas/ImageResource'),
-        new OA\Property(property: 'requirements', ref: '#/components/schemas/RequirementResource'),
         new OA\Property(property: 'discounts', ref: '#/components/schemas/DiscountResource')
     ]
 )]

@@ -51,6 +51,7 @@ class GameController extends Controller
 
         if (!$game)
             return response()->json(['status' => 'Error: Game not found'], 404);
+
         return response()->json([
             'status' => 'Succesfull',
             'game' => new GameResource($game)
@@ -272,6 +273,44 @@ class GameController extends Controller
                 'next_page' => $games->nextPageUrl(),
                 'previous_page' => $games->previousPageUrl()
             ]
+        ]);
+    }
+
+        #[OA\Get(
+        path: '/v1/games/most-bought',
+        operationId: 'gameMostBought',
+        tags: ['Game'],
+        summary: 'Juego mas comprado',
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Juego obtenido',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'Succesfull'),
+                        new OA\Property(property: 'game', ref: '#/components/schemas/GameListResource'),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 404,
+                description: 'Games were not bought yet'
+            )
+        ]
+    )]
+    public function gameMostBought(): JsonResponse
+    {
+        $game = Game::with(['images', 'discounts'])
+                    ->where('count_boughts', '>', 0)
+                    ->orderBy('count_boughts', 'desc')
+                    ->first();
+
+        if (!$game)
+            return response()->json(['Failure' => 'Games were not bought yet', 404]);    
+
+        return response()->json([
+            'status' => 'Succesful',
+            'game' => new GameListResource($game)
         ]);
     }
 }
