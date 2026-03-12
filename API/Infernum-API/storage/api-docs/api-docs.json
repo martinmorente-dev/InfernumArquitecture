@@ -1,0 +1,790 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Infernum API",
+        "description": "Documentación de la API Infernum",
+        "version": "0.1"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:1606/api",
+            "description": "Servidor API"
+        }
+    ],
+    "paths": {
+        "/v1/games/details/{id}": {
+            "get": {
+                "tags": [
+                    "Game"
+                ],
+                "summary": "Obtener juego",
+                "operationId": "details",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Juego obtenido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Succesfull"
+                                        },
+                                        "game": {
+                                            "$ref": "#/components/schemas/GameResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Juego no encontrado"
+                    }
+                }
+            }
+        },
+        "/v1/games/all/{pagination}": {
+            "get": {
+                "tags": [
+                    "Game"
+                ],
+                "summary": "Obtener juego",
+                "operationId": "all",
+                "parameters": [
+                    {
+                        "name": "pagination",
+                        "in": "path",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Juegos obtenidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Succesfull"
+                                        },
+                                        "game": {
+                                            "$ref": "#/components/schemas/GameListResource"
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "from": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "to": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "has_next_page": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "next_page": {
+                                                    "type": "string",
+                                                    "example": "http://next_page"
+                                                },
+                                                "previous_page": {
+                                                    "type": "string",
+                                                    "example": "http://previous_page"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/games/name": {
+            "get": {
+                "tags": [
+                    "Game"
+                ],
+                "summary": "Obtener juego por nombre",
+                "operationId": "searchByName",
+                "parameters": [
+                    {
+                        "name": "term",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Dark Souls"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Juegos obtenidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Succesfull"
+                                        },
+                                        "game": {
+                                            "$ref": "#/components/schemas/GameListResource"
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "from": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "to": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "has_next_page": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "next_page": {
+                                                    "type": "string",
+                                                    "example": "http://next_page"
+                                                },
+                                                "previous_page": {
+                                                    "type": "string",
+                                                    "example": "http://previous_page"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Juego no encontrado"
+                    }
+                }
+            }
+        },
+        "/v1/games/filter": {
+            "get": {
+                "tags": [
+                    "Game"
+                ],
+                "summary": "Filtrar juegos",
+                "operationId": "filterGame",
+                "parameters": [
+                    {
+                        "name": "price[gt]",
+                        "in": "query",
+                        "description": "Precio minimo (mayor que)",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "example": 10
+                        }
+                    },
+                    {
+                        "name": "genre",
+                        "in": "query",
+                        "description": "Juego que coincida con el genero",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Rol"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Juegos obtenidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Succesfull"
+                                        },
+                                        "game": {
+                                            "$ref": "#/components/schemas/GameListResource"
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "from": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "to": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "has_next_page": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "next_page": {
+                                                    "type": "string",
+                                                    "example": "http://next_page"
+                                                },
+                                                "previous_page": {
+                                                    "type": "string",
+                                                    "example": "http://previous_page"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Game not found by the filter given"
+                    }
+                }
+            }
+        },
+        "/v1/games/most-bought": {
+            "get": {
+                "tags": [
+                    "Game"
+                ],
+                "summary": "Juego mas comprado",
+                "operationId": "gameMostBought",
+                "responses": {
+                    "200": {
+                        "description": "Juego obtenido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Succesfull"
+                                        },
+                                        "game": {
+                                            "$ref": "#/components/schemas/GameListResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Games were not bought yet"
+                    }
+                }
+            }
+        },
+        "/v1/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Iniciar sesión de usuario",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserLoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Successfull"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|abc123..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciales incorrectas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Error: Incorrect credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Registrar nuevo usuario",
+                "operationId": "registerUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRegisterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario creado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Successfull"
+                                        },
+                                        "created-user": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        },
+                                        "expires_in_minutes": {
+                                            "type": "string",
+                                            "example": "3"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|abc123..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Datos inválidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad data"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user": {
+            "get": {
+                "tags": [
+                    "Usuario"
+                ],
+                "summary": "Obtener usuario autenticado (TOKEN OBLIGATORIO)",
+                "description": "**¡SIN TOKEN = 401!**\\n\\n1. **POST /v1/login** → copia token\\n2. **Authorize** → pega `Bearer {token} en el candado`. **Ejecuta esta ruta** ✅",
+                "operationId": "getAuthenticatedUser",
+                "responses": {
+                    "200": {
+                        "description": "Usuario OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "TOKEN requerido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Error: No autenticado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "UserLoginRequest": {
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "user@example.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "password123"
+                    }
+                },
+                "type": "object"
+            },
+            "UserRegisterRequest": {
+                "required": [
+                    "email",
+                    "nickname",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "user@example.com"
+                    },
+                    "nickname": {
+                        "type": "string",
+                        "example": "john_doe"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "password123"
+                    }
+                },
+                "type": "object"
+            },
+            "DiscountResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "percentage": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 20
+                    },
+                    "valid_at": {
+                        "type": "timestamp",
+                        "example": 0.0029615004935834156
+                    },
+                    "expires_at": {
+                        "type": "timestamp",
+                        "example": 0.0009871668311944718
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "GameListResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Dark Souls"
+                    },
+                    "short_description": {
+                        "type": "string",
+                        "example": "es un aclamado juego de rol de acción (ARPG) de fantasía oscura, desarrollado por FromSoftware"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 39.99
+                    },
+                    "final_price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 20.99
+                    },
+                    "genres": {
+                        "$ref": "#/components/schemas/GenreResource"
+                    },
+                    "images": {
+                        "$ref": "#/components/schemas/ImageResource"
+                    },
+                    "discounts": {
+                        "$ref": "#/components/schemas/DiscountResource"
+                    }
+                },
+                "type": "object"
+            },
+            "GameResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Dark Souls"
+                    },
+                    "short_description": {
+                        "type": "string",
+                        "example": "es un aclamado juego de rol de acción (ARPG) de fantasía oscura, desarrollado por FromSoftware"
+                    },
+                    "long_description": {
+                        "type": "string",
+                        "example": "Los juegos de Dark Souls se juegan en tercera persona y se centran en explorar entornos interconectados mientras se lucha contra enemigos con armas y magia . Los jugadores luchan contra jefes para avanzar en la historia, a la vez que interactúan con personajes no jugables."
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 39.99
+                    },
+                    "final_price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 20.99
+                    },
+                    "genres": {
+                        "$ref": "#/components/schemas/GenreResource"
+                    },
+                    "images": {
+                        "$ref": "#/components/schemas/ImageResource"
+                    },
+                    "requirements": {
+                        "$ref": "#/components/schemas/RequirementResource"
+                    },
+                    "discounts": {
+                        "$ref": "#/components/schemas/DiscountResource"
+                    }
+                },
+                "type": "object"
+            },
+            "GenreResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "Accion"
+                    }
+                },
+                "type": "object"
+            },
+            "ImageResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "url": {
+                        "type": "string",
+                        "example": "https://image.com"
+                    },
+                    "type": {
+                        "type": "enum",
+                        "example": "portrait"
+                    }
+                },
+                "type": "object"
+            },
+            "RequirementResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "type": {
+                        "type": "enum",
+                        "example": "min"
+                    },
+                    "os": {
+                        "type": "string",
+                        "example": "Windows 10"
+                    },
+                    "ram": {
+                        "type": "string",
+                        "example": "16 GB"
+                    },
+                    "gpu": {
+                        "type": "string",
+                        "example": "Nvidia Geforce 3060"
+                    },
+                    "storage": {
+                        "type": "string",
+                        "example": "10GB"
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "user@example.com"
+                    },
+                    "nickname": {
+                        "type": "string",
+                        "example": "john_doe"
+                    },
+                    "role": {
+                        "type": "string",
+                        "example": "client"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "Token",
+                "description": "Ingresa tu token de Sanctum",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Game",
+            "description": "Game"
+        },
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Usuario",
+            "description": "Usuario"
+        }
+    ],
+    "security": [
+        {
+            "sanctum": []
+        }
+    ]
+}
