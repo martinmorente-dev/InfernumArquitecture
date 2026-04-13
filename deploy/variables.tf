@@ -1,18 +1,18 @@
 variable "domain_name" {
-  type = string
+  type    = string
   default = "infernum-original.duckdns.org"
 }
 
 variable "region" {
-  type = string
+  type    = string
   default = "us-east-1"
 
 }
 
 variable "instance_type" {
-   description = "Tipo de instacia EC2"
-   type = string
-   default = "t2.large"
+  description = "Tipo de instacia EC2"
+  type        = string
+  default     = "t2.large"
 }
 
 
@@ -41,6 +41,14 @@ data "aws_ami" "ubuntu" {
 
 
 data "aws_vpc" "vpc" {
-  region = var.region
+  region  = var.region
   default = true
 }
+
+/*********************** IAM ***************/
+
+variable "arn" {
+  description = "ARN"
+  default     = "arn:aws:iam::701090944443:role/LabRole"
+}
+

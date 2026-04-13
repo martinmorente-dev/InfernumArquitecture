@@ -5,12 +5,12 @@ terraform {
       version = "~> 6.0"
     }
   }
-    backend "s3" {
-        bucket = "infernum-bucket2"
-        key = "vockey"
-        region = "us-east-1"
-        encrypt = true
-    }
+  backend "s3" {
+    bucket  = "infernum-bucket-3"
+    key     = "vockey"
+    region  = "us-east-1"
+    encrypt = true
+  }
 
 
   required_version = ">= 1.2"
@@ -18,5 +18,5 @@ terraform {
 
 
 provider "aws" {
-    region = "us-east-1"
+  region = "us-east-1"
 }
