@@ -21,7 +21,7 @@ resource "aws_security_group" "backend_sg" {
 
 resource "aws_vpc_security_group_ingress_rule" "backend_ssh" {
   security_group_id            = aws_security_group.backend_sg.id
-  referenced_security_group_id = aws_security_group.backend_sg.id
+  referenced_security_group_id = aws_security_group.bastion-group.id
   from_port                    = 22
   to_port                      = 22
   ip_protocol                  = "tcp"
