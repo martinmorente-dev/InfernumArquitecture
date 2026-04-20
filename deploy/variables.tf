@@ -39,8 +39,11 @@ data "aws_ami" "ubuntu" {
 
 }
 
-
 data "aws_vpc" "vpc" {
   region = var.region
   default = true
+}
+
+data "aws_iam_role" "codedeploy" {
+  name = "LabRole"
 }

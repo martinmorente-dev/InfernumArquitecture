@@ -60,10 +60,10 @@ resource "aws_codedeploy_app" "backend" {
 resource "aws_codedeploy_deployment_group" "backend" {
   app_name = aws_codedeploy_app.backend.name
   deployment_group_name = "backend-group"
-  service_role_arn = aws_iam_role.codedeploy.arn
+  service_role_arn = data.aws_iam_role.codedeploy.arn
 
   ec2_tag_filter {
-    type = "tag-key"
+    type = "KEY_AND_VALUE"
     value = "Deploy"
     key = "api"
   }

@@ -19,6 +19,14 @@ resource "aws_vpc_security_group_ingress_rule" "allow-80-everyone" {
 
 }
 
+resource "aws_vpc_security_group_ingress_rule" "allow-https" {
+  security_group_id = aws_security_group.front-group.id
+  ip_protocol = "tcp"
+  cidr_ipv4 = "0.0.0.0/0"
+  from_port = 443
+  to_port = 443
+  description = "Allow https for everyone"
+}
 
 resource "aws_vpc_security_group_ingress_rule" "ssh" {
   security_group_id = aws_security_group.front-group.id
@@ -72,12 +80,12 @@ resource "aws_codedeploy_app" "frontend" {
 
 
 resource "aws_codedeploy_deployment_group" "frontend" {
- app_name   = aws_code_deploy_app.frontend.name
+ app_name   = aws_codedeploy_app.frontend.name
  deployment_group_name = "frontend-group"
- service_role_arn = aws_iam_role.codedeploy.arn
+ service_role_arn = data.aws_iam_role.codedeploy.arn
 
  ec2_tag_filter {
-  type = "tag-key"
+  type = "KEY_AND_VALUE"
   value = "Deploy"
   key = "web"
  }

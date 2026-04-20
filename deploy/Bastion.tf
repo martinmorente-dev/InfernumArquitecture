@@ -13,8 +13,8 @@ resource "aws_vpc_security_group_ingress_rule" "allow-22-all" {
   security_group_id = aws_security_group.bastion-group.id
   cidr_ipv4 = "0.0.0.0/0"
   ip_protocol = "tcp"
-  from_port = 80
-  to_port = 80
+  from_port = 22
+  to_port = 22
   description = "Allow port 22 to everyone"
 
 }
@@ -45,7 +45,7 @@ resource "aws_route53_zone" "zone" {
   name = var.domain_name
 
   vpc {
-    vpc_id = data.aws_vpc.vpc
+    vpc_id = data.aws_vpc.vpc.id
     vpc_region = var.region
   }
 }

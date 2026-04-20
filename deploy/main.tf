@@ -6,12 +6,11 @@ terraform {
     }
   }
     backend "s3" {
-        bucket = "infernum-bucket2"
+        bucket = "infernum-bucket-3"
         key = "vockey"
         region = "us-east-1"
         encrypt = true
     }
-
 
   required_version = ">= 1.2"
 }
