@@ -32,7 +32,8 @@ resource "aws_vpc_security_group_ingress_rule" "allow-455-everyone" {
 
 resource "aws_vpc_security_group_ingress_rule" "ssh" {
   security_group_id            = aws_security_group.front-group.id
-  referenced_security_group_id = aws_security_group.bastion-group.id
+  //referenced_security_group_id = aws_security_group.bastion-group.id
+  cidr_ipv4 = "0.0.0.0/0"
   ip_protocol                  = "tcp"
   from_port                    = 22
   to_port                      = 22
@@ -47,6 +48,7 @@ resource "aws_instance" "Front" {
   instance_type          = "t2.small"
   vpc_security_group_ids = [aws_security_group.front-group.id, aws_security_group.common-group.id]
   key_name               = "vockey"
+  user_data = file("./scripts/front.sh")
   tags = {
     Name = "Front"
   }
@@ -74,14 +76,17 @@ resource "aws_route53_record" "front-record" {
 
 /****************** Code deploy **********************************/
 
-/******************* Load Balancer **********************************/
 
+
+
+/******************* Load Balancer **********************************/
+/*
 resource "aws_lb" "front_lb" {
   name               = "frontend-lb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.front-group.id]
-  // add subnets
+  subnets = data.aws_subnets.public.ids
 
   tags = {
     Name = "frontend-lb"
@@ -116,8 +121,8 @@ resource "aws_lb_target_group" "front-http" {
 }
 
 resource "aws_lb_target_group" "front-https" {
-  name        = "front-455-tg"
-  port        = 455
+  name        = "front-443-tg"
+  port        = 443
   protocol    = "TCP"
   vpc_id      = data.aws_vpc.vpc.id
   target_type = "instance"
@@ -126,14 +131,14 @@ resource "aws_lb_target_group" "front-https" {
     enabled             = true
     healthy_threshold   = 2
     interval            = 30
-    port                = "455"
+    port                = "443"
     protocol            = "TCP"
     timeout             = 5
     unhealthy_threshold = 2
   }
 
   tags = {
-    Name = "front-455-tg"
+    Name = "front-443-tg"
   }
 }
 
@@ -144,8 +149,13 @@ resource "aws_lb_listener" "http" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.front-http.arn
+    type             = "redirect"
+
+    redirect {
+      port = "443"
+      protocol = "HTTPS"
+      status_code = "HTTP_301"
+    }
   }
 }
 
@@ -153,7 +163,7 @@ resource "aws_lb_listener" "http" {
 
 resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.front_lb.arn
-  port              = "455"
+  port              = "443"
   protocol          = "HTTPS"
 
   default_action {
@@ -175,7 +185,7 @@ resource "aws_lb_target_group_attachment" "front-http-group" {
 resource "aws_lb_target_group_attachment" "front-https-group" {
   target_group_arn = aws_lb_target_group.front-https.arn
   target_id        = aws_instance.Front.id
-  port             = 455
+  port             = 443
 }
 
 resource "aws_codedeploy_app" "frontend" {
@@ -195,3 +205,4 @@ resource "aws_codedeploy_deployment_group" "frontend" {
 
 }
 
+*/

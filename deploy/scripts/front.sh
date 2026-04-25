@@ -2,6 +2,8 @@
 # Script de inicialización para el Servidor Frontend
 echo "Iniciando provisión del Frontend..."
 
+exec > >(tee -a /var/log/frontend-provision.log) 2>&1
+
 # Actualizar e instalar dependencias básicas
 apt-get update
 apt-get install -y ca-certificates curl gnupg lsb-release
@@ -19,5 +21,19 @@ usermod -aG docker ubuntu
 # Preparar directorios de la aplicación
 mkdir -p /home/ubuntu/frontend-code
 chown -R ubuntu:ubuntu /home/ubuntu/frontend-code
+
+# Poner Apache
+
+sudo apt install -y apache2
+
+sudo systemctl enable apache2
+
+# Agregar https
+
+sudo snap install --classic certbot
+
+sudo ln -s /snap/bin/certbot /usr/local/bin/certbot
+
+sudo certbot --apache --non-interactive --agree-tos --no-eff-email -m tuemail@ejemplo.com -d frontend-infernum-original.duckdns.org
 
 echo "Provisión del Frontend completada."

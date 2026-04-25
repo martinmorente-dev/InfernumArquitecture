@@ -1,0 +1,6 @@
+# Terraform files
+.terraform/
+.terraform.lock.hcl
+
+# AWS Key
+*.pem

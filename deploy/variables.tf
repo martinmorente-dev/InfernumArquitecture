@@ -45,6 +45,14 @@ data "aws_vpc" "vpc" {
   default = true
 }
 
+
+data "aws_subnets" "public" {
+  filter {
+    name = "vpc-id"
+    values = [ data.aws_vpc.vpc.id ]
+  }
+}
+
 /*********************** IAM ***************/
 
 variable "arn" {
