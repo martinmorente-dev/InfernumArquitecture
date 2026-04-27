@@ -15,6 +15,11 @@ variable "instance_type" {
   default     = "t2.large"
 }
 
+variable "arn" {
+  description = "ARN"
+  default     = "arn:aws:iam::701090944443:role/LabRole"
+}
+
 
 /************* DATA SOURCES *******************/
 
@@ -52,11 +57,3 @@ data "aws_subnets" "public" {
     values = [ data.aws_vpc.vpc.id ]
   }
 }
-
-/*********************** IAM ***************/
-
-variable "arn" {
-  description = "ARN"
-  default     = "arn:aws:iam::701090944443:role/LabRole"
-}
-

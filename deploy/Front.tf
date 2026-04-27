@@ -67,9 +67,13 @@ resource "aws_eip" "front-elastic-ip" {
 resource "aws_route53_record" "front-record" {
   type    = "A"
   name    = "frontend.${var.domain_name}"
-  records = [aws_instance.Front.private_ip]
   zone_id = aws_route53_zone.zone.id
-  ttl     = 300
+
+  alias {
+    name = aws_lb.front_lb.dns_name
+    zone_id = aws_lb.front_lb.zone_id
+    evaluate_target_health = true
+  }
 
 }
 
@@ -80,12 +84,12 @@ resource "aws_route53_record" "front-record" {
 
 
 /******************* Load Balancer **********************************/
-/*
+
+// Crear otro servidor y agregarle el balanceador de carga
 resource "aws_lb" "front_lb" {
   name               = "frontend-lb"
   internal           = false
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.front-group.id]
+  load_balancer_type = "network"
   subnets = data.aws_subnets.public.ids
 
   tags = {
@@ -98,7 +102,7 @@ resource "aws_lb" "front_lb" {
 resource "aws_lb_target_group" "front-http" {
   name        = "front-http-tg"
   port        = 80
-  protocol    = "HTTP"
+  protocol    = "TCP"
   vpc_id      = data.aws_vpc.vpc.id
   target_type = "instance"
 
@@ -107,10 +111,8 @@ resource "aws_lb_target_group" "front-http" {
     enabled             = true
     healthy_threshold   = 2
     interval            = 30
-    matcher             = "200"
-    path                = "/"
     port                = "80"
-    protocol            = "HTTP"
+    protocol            = "TCP"
     timeout             = 5
     unhealthy_threshold = 2
   }
@@ -146,16 +148,11 @@ resource "aws_lb_target_group" "front-https" {
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.front_lb.arn
   port              = "80"
-  protocol          = "HTTP"
+  protocol          = "TCP"
 
   default_action {
-    type             = "redirect"
-
-    redirect {
-      port = "443"
-      protocol = "HTTPS"
-      status_code = "HTTP_301"
-    }
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.front-http.arn
   }
 }
 
@@ -164,14 +161,13 @@ resource "aws_lb_listener" "http" {
 resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.front_lb.arn
   port              = "443"
-  protocol          = "HTTPS"
+  protocol          = "TCP"
 
   default_action {
-    type             = "forward"
+    type = "forward"
     target_group_arn = aws_lb_target_group.front-https.arn
   }
 }
-
 
 # Registrar front (httpp https)
 
@@ -205,4 +201,3 @@ resource "aws_codedeploy_deployment_group" "frontend" {
 
 }
 
-*/
