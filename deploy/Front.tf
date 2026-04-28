@@ -20,16 +20,17 @@ resource "aws_vpc_security_group_ingress_rule" "allow-80-everyone" {
 }
 
 
-resource "aws_vpc_security_group_ingress_rule" "allow-455-everyone" {
+resource "aws_vpc_security_group_ingress_rule" "allow-443-everyone" {
   security_group_id = aws_security_group.front-group.id
   ip_protocol       = "tcp"
   cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 455
-  to_port           = 455
-  description       = "Allow port 455 for everyone"
+  from_port         = 443
+  to_port           = 443
+  description       = "Allow port 443 for everyone"
 
 }
 
+// TODO Cambiar en producción referenced_security_group_id
 resource "aws_vpc_security_group_ingress_rule" "ssh" {
   security_group_id            = aws_security_group.front-group.id
   //referenced_security_group_id = aws_security_group.bastion-group.id
@@ -55,9 +56,27 @@ resource "aws_instance" "Front" {
 
 }
 
+resource "aws_instance" "Front2" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = "t2.small"
+  vpc_security_group_ids = [aws_security_group.front-group.id, aws_security_group.common-group.id]
+  key_name               = "vockey"
+  user_data = file("./scripts/front.sh")
+  tags = {
+    Name = "Front2"
+  }
+
+}
+
 resource "aws_eip" "front-elastic-ip" {
   domain   = "vpc"
   instance = aws_instance.Front.id
+
+}
+
+resource "aws_eip" "front2-elastic-ip" {
+  domain   = "vpc"
+  instance = aws_instance.Front2.id
 
 }
 
@@ -77,15 +96,8 @@ resource "aws_route53_record" "front-record" {
 
 }
 
-
-/****************** Code deploy **********************************/
-
-
-
-
 /******************* Load Balancer **********************************/
 
-// Crear otro servidor y agregarle el balanceador de carga
 resource "aws_lb" "front_lb" {
   name               = "frontend-lb"
   internal           = false
@@ -156,7 +168,7 @@ resource "aws_lb_listener" "http" {
   }
 }
 
-# Listener HTTPS 455
+# Listener HTTPS 443
 
 resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.front_lb.arn
@@ -169,7 +181,7 @@ resource "aws_lb_listener" "https" {
   }
 }
 
-# Registrar front (httpp https)
+# Registrar front (httpp https) para ambas instancias
 
 resource "aws_lb_target_group_attachment" "front-http-group" {
   target_group_arn = aws_lb_target_group.front-http.arn
@@ -183,6 +195,23 @@ resource "aws_lb_target_group_attachment" "front-https-group" {
   target_id        = aws_instance.Front.id
   port             = 443
 }
+
+resource "aws_lb_target_group_attachment" "front2-http-group" {
+  target_group_arn = aws_lb_target_group.front-http.arn
+  target_id        = aws_instance.Front2.id
+  port             = 80
+}
+
+
+resource "aws_lb_target_group_attachment" "front2-https-group" {
+  target_group_arn = aws_lb_target_group.front-https.arn
+  target_id        = aws_instance.Front2.id
+  port             = 443
+}
+
+
+/****************** Code deploy **********************************/
+
 
 resource "aws_codedeploy_app" "frontend" {
   name = "frontend-app"
@@ -200,4 +229,3 @@ resource "aws_codedeploy_deployment_group" "frontend" {
   }
 
 }
-
