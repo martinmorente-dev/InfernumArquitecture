@@ -2,7 +2,6 @@
 # Script de inicialización para el Servidor Backend
 echo "Iniciando provisión del Backend..."
 
-
 exec > >(tee -a /var/log/backend-provision.log) 2>&1
 
 # Actualizar e instalar dependencias básicas

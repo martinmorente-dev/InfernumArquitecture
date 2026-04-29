@@ -19,7 +19,6 @@ resource "aws_vpc_security_group_ingress_rule" "allow-80-everyone" {
 
 }
 
-
 resource "aws_vpc_security_group_ingress_rule" "allow-443-everyone" {
   security_group_id = aws_security_group.front-group.id
   ip_protocol       = "tcp"
@@ -40,7 +39,6 @@ resource "aws_vpc_security_group_ingress_rule" "ssh" {
   to_port                      = 22
   description                  = "Allow port 22"
 }
-
 
 /************** INSTANCE + ELASTIC IP *************************/
 
