@@ -34,6 +34,4 @@ sudo snap install --classic certbot
 
 sudo ln -s /snap/bin/certbot /usr/local/bin/certbot
 
-sudo certbot --apache --non-interactive --agree-tos --no-eff-email -m tuemail@ejemplo.com -d frontend-infernum-original.duckdns.org
-
 echo "Provisión del Frontend completada."
