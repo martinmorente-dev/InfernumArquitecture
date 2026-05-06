@@ -8,6 +8,17 @@ exec > >(tee -a /var/log/backend-provision.log) 2>&1
 apt-get update
 apt-get install -y ca-certificates curl gnupg lsb-release
 
+# Code deploy agent
+apt install -y ruby-full
+apt install -y wget
+ 
+cd /home/ubuntu
+wget https://aws-codedeploy-${region}.s3.${region}.amazonaws.com/latest/install
+chmod +x ./install
+./install auto
+
+systemctl enable codedeploy-agent
+
 # Instalar Docker
 mkdir -p /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg

@@ -3,10 +3,14 @@ resource "aws_instance" "backend" {
   ami                    = data.aws_ami.ubuntu.id
   key_name               = "vockey"
   vpc_security_group_ids = [aws_security_group.backend_sg.id]
-  user_data              = file("./scripts/backend.sh")
+  iam_instance_profile   =  aws_iam_instance_profile.lab_profile.name
+  user_data              = templatefile("./scripts/backend.sh.tpl", {
+    region = var.region
+  })
 
   tags = {
     Name = "Servidor Backend"
+    api = "Deploy"
   }
 }
 
@@ -15,13 +19,14 @@ resource "aws_security_group" "backend_sg" {
   description = "Grupo de seguridad para el servidor Backend"
 
   tags = {
-    Name = "Grupo de Seguridad Backend"
+    Name      = "Grupo de Seguridad Backend"
   }
 }
 
 resource "aws_vpc_security_group_ingress_rule" "backend_ssh" {
   security_group_id            = aws_security_group.backend_sg.id
-  referenced_security_group_id = aws_security_group.bastion-group.id
+  //referenced_security_group_id = aws_security_group.bastion-group.id
+  cidr_ipv4                    = "0.0.0.0/0"
   from_port                    = 22
   to_port                      = 22
   ip_protocol                  = "tcp"
@@ -49,24 +54,26 @@ resource "aws_route53_record" "backend" {
   records = [aws_instance.backend.private_ip]
 }
 
-
 /************** Code deploy ****************************/
+
+# profile definition
+resource "aws_iam_instance_profile" "lab_profile" {
+  name = "LabInstanceProfile"
+  role = "LabRole"
+}
 
 resource "aws_codedeploy_app" "backend" {
   name = "backend-app"
 }
 
-
 resource "aws_codedeploy_deployment_group" "backend" {
   app_name              = aws_codedeploy_app.backend.name
   deployment_group_name = "backend-group"
-  service_role_arn      = var.arn
+  service_role_arn      = data.aws_iam_role.lab_role.arn
 
   ec2_tag_filter {
     type  = "KEY_AND_VALUE"
     value = "Deploy"
     key   = "api"
   }
-
 }
-

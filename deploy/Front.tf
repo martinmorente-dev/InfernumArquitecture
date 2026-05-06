@@ -218,7 +218,7 @@ resource "aws_codedeploy_app" "frontend" {
 resource "aws_codedeploy_deployment_group" "frontend" {
   app_name              = aws_codedeploy_app.frontend.name
   deployment_group_name = "frontend-group"
-  service_role_arn      = var.arn
+  service_role_arn      = data.aws_iam_role.lab_role.arn
 
   ec2_tag_filter {
     type  = "KEY_AND_VALUE"

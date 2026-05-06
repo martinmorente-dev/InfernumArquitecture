@@ -15,11 +15,11 @@ variable "instance_type" {
   default     = "t2.large"
 }
 
-variable "arn" {
-  description = "ARN"
-  default     = "arn:aws:iam::701090944443:role/LabRole"
+variable "bucket_name" {
+  description = "Nombre del bucket"
+  type = string
+  default = "infernum-bucket-3"
 }
-
 
 /************* DATA SOURCES *******************/
 
@@ -44,16 +44,18 @@ data "aws_ami" "ubuntu" {
 
 }
 
-
 data "aws_vpc" "vpc" {
   region  = var.region
   default = true
 }
-
 
 data "aws_subnets" "public" {
   filter {
     name = "vpc-id"
     values = [ data.aws_vpc.vpc.id ]
   }
+}
+
+data "aws_iam_role" "lab_role" {
+  name = "LabRole"
 }
