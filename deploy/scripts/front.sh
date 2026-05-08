@@ -2,6 +2,11 @@
 # Script de inicialización para el Servidor Frontend
 echo "Iniciando provisión del Frontend..."
 
+<<<<<<< HEAD
+=======
+exec > >(tee -a /var/log/frontend-provision.log) 2>&1
+
+>>>>>>> develop
 # Actualizar e instalar dependencias básicas
 apt-get update
 apt-get install -y ca-certificates curl gnupg lsb-release
@@ -22,16 +27,27 @@ chown -R ubuntu:ubuntu /home/ubuntu/frontend-code
 
 # Poner Apache
 
+<<<<<<< HEAD
 sudo apt install apache2
+=======
+sudo apt install -y apache2
+>>>>>>> develop
 
 sudo systemctl enable apache2
 
 # Agregar https
 
+<<<<<<< HEAD
 sudo snap install --classic-certbot
 
 sudo ln -s /snap/bin/certbot /usr/local/bin/certbot
 
 sudo certbot --apache --non-interactive --agree-tos --no-eff-email -m tuemail@ejemplo.com -d infernum-original.duckdns.org
 
+=======
+sudo snap install --classic certbot
+
+sudo ln -s /snap/bin/certbot /usr/local/bin/certbot
+
+>>>>>>> develop
 echo "Provisión del Frontend completada."

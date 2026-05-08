@@ -1,5 +1,5 @@
 resource "aws_security_group" "bastion-group" {
-  name = "bastion-group"
+  name        = "bastion-group"
   description = "Security group for the bastion"
 
   tags = {
@@ -11,22 +11,29 @@ resource "aws_security_group" "bastion-group" {
 
 resource "aws_vpc_security_group_ingress_rule" "allow-22-all" {
   security_group_id = aws_security_group.bastion-group.id
+<<<<<<< HEAD
   cidr_ipv4 = "0.0.0.0/0"
   ip_protocol = "tcp"
   from_port = 22
   to_port = 22
   description = "Allow port 22 to everyone"
+=======
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "tcp"
+  from_port         = 22
+  to_port           = 22
+  description       = "Allow port 22 to everyone"
+>>>>>>> develop
 
 }
-
 
 /*************** INSTANCE + ELASTIC IP********************/
 
 resource "aws_instance" "Bastion" {
-  ami = data.aws_ami.ubuntu.id
-  instance_type = "t2.small"
-  vpc_security_group_ids = [ aws_security_group.bastion-group.id, aws_security_group.common-group.id ]
-  key_name = "vockey"
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = "t2.small"
+  vpc_security_group_ids = [aws_security_group.bastion-group.id, aws_security_group.common-group.id]
+  key_name               = "vockey"
   tags = {
     Name = "Bastion"
   }
@@ -34,8 +41,8 @@ resource "aws_instance" "Bastion" {
 }
 
 resource "aws_eip" "bastion-elastic-ip" {
-    domain = "vpc"
-    instance = aws_instance.Bastion.id
+  domain   = "vpc"
+  instance = aws_instance.Bastion.id
 
 }
 
@@ -45,17 +52,22 @@ resource "aws_route53_zone" "zone" {
   name = var.domain_name
 
   vpc {
+<<<<<<< HEAD
     vpc_id = data.aws_vpc.vpc.id
+=======
+    vpc_id     = data.aws_vpc.vpc.id
+>>>>>>> develop
     vpc_region = var.region
   }
 }
 
 
 resource "aws_route53_record" "bastion-record" {
-  type = "A"
-  name = "bastion.${var.domain_name}"
-  records = [ aws_instance.Bastion.private_ip ]
+  type    = "A"
+  name    = "bastion.${var.domain_name}"
+  records = [aws_instance.Bastion.private_ip]
   zone_id = aws_route53_zone.zone.id
-  ttl = 300
+  ttl     = 300
 
 }
+
