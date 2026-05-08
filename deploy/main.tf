@@ -5,21 +5,12 @@ terraform {
       version = "~> 6.0"
     }
   }
-<<<<<<< HEAD
-    backend "s3" {
-        bucket = "infernum-bucket-3"
-        key = "vockey"
-        region = "us-east-1"
-        encrypt = true
-    }
-=======
   backend "s3" {
     bucket  = "infernum-bucket-3"
     key     = "vockey"
     region  = "us-east-1"
     encrypt = true
   }
->>>>>>> develop
 
   required_version = ">= 1.2"
 }

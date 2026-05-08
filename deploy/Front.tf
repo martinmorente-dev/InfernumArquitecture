@@ -19,20 +19,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow-80-everyone" {
 
 }
 
-<<<<<<< HEAD
-resource "aws_vpc_security_group_ingress_rule" "allow-https" {
-  security_group_id = aws_security_group.front-group.id
-  ip_protocol = "tcp"
-  cidr_ipv4 = "0.0.0.0/0"
-  from_port = 443
-  to_port = 443
-  description = "Allow https for everyone"
-}
-
-resource "aws_vpc_security_group_ingress_rule" "ssh" {
-=======
 resource "aws_vpc_security_group_ingress_rule" "allow-443-everyone" {
->>>>>>> develop
   security_group_id = aws_security_group.front-group.id
   ip_protocol       = "tcp"
   cidr_ipv4         = "0.0.0.0/0"
@@ -229,17 +216,6 @@ resource "aws_codedeploy_app" "frontend" {
 }
 
 resource "aws_codedeploy_deployment_group" "frontend" {
-<<<<<<< HEAD
- app_name   = aws_codedeploy_app.frontend.name
- deployment_group_name = "frontend-group"
- service_role_arn = data.aws_iam_role.codedeploy.arn
-
- ec2_tag_filter {
-  type = "KEY_AND_VALUE"
-  value = "Deploy"
-  key = "web"
- }
-=======
   app_name              = aws_codedeploy_app.frontend.name
   deployment_group_name = "frontend-group"
   service_role_arn      = data.aws_iam_role.lab_role.arn
@@ -249,6 +225,5 @@ resource "aws_codedeploy_deployment_group" "frontend" {
     value = "Deploy"
     key   = "web"
   }
->>>>>>> develop
 
 }

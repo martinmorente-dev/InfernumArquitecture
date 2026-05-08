@@ -49,9 +49,6 @@ data "aws_vpc" "vpc" {
   default = true
 }
 
-<<<<<<< HEAD
-data "aws_iam_role" "codedeploy" {
-=======
 data "aws_subnets" "public" {
   filter {
     name = "vpc-id"
@@ -60,6 +57,5 @@ data "aws_subnets" "public" {
 }
 
 data "aws_iam_role" "lab_role" {
->>>>>>> develop
   name = "LabRole"
 }
