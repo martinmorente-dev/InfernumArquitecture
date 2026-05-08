@@ -8,7 +8,7 @@ resource "aws_instance" "backend" {
     region = var.region
   })
 
-  tags = {
+  tags  = {
     Name = "Servidor Backend"
     api = "Deploy"
   }
@@ -58,8 +58,8 @@ resource "aws_route53_record" "backend" {
 
 # profile definition
 resource "aws_iam_instance_profile" "lab_profile" {
-  name = "LabInstanceProfile"
-  role = "LabRole"
+  name = "BackendInstanceProfile"
+  role = data.aws_iam_role.lab_role.name // ponerlo siempre con el data
 }
 
 resource "aws_codedeploy_app" "backend" {

@@ -8,6 +8,9 @@ exec > >(tee -a /var/log/backend-provision.log) 2>&1
 apt-get update
 apt-get install -y ca-certificates curl gnupg lsb-release
 
+# AWS CLI
+apt install -y awscli
+
 # Code deploy agent
 apt install -y ruby-full
 apt install -y wget
