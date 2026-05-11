@@ -12,7 +12,7 @@ variable "region" {
 variable "instance_type" {
   description = "Tipo de instacia EC2"
   type        = string
-  default     = "t2.medium"
+  default     = "t2.small"
 }
 
 variable "bucket_name" {

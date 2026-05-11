@@ -104,7 +104,7 @@ resource "aws_route53_record" "front-record" {
 resource "aws_lb" "front_lb" {
   name               = "frontend-lb"
   internal           = false
-  load_balancer_type = "network"
+  load_balancer_type = "application"
   subnets = data.aws_subnets.public.ids
 
   tags = {
@@ -117,7 +117,7 @@ resource "aws_lb" "front_lb" {
 resource "aws_lb_target_group" "front-http" {
   name        = "front-http-tg"
   port        = 80
-  protocol    = "TCP"
+  protocol    = "HTTP"
   vpc_id      = data.aws_vpc.vpc.id
   target_type = "instance"
 
@@ -127,7 +127,8 @@ resource "aws_lb_target_group" "front-http" {
     healthy_threshold   = 2
     interval            = 30
     port                = "80"
-    protocol            = "TCP"
+    path                = "/"
+    protocol            = "HTTP"
     timeout             = 5
     unhealthy_threshold = 2
   }
@@ -140,7 +141,7 @@ resource "aws_lb_target_group" "front-http" {
 resource "aws_lb_target_group" "front-https" {
   name        = "front-443-tg"
   port        = 443
-  protocol    = "TCP"
+  protocol    = "HTTPS"
   vpc_id      = data.aws_vpc.vpc.id
   target_type = "instance"
 
@@ -148,8 +149,9 @@ resource "aws_lb_target_group" "front-https" {
     enabled             = true
     healthy_threshold   = 2
     interval            = 30
+    path                = "/" 
     port                = "443"
-    protocol            = "TCP"
+    protocol            = "HTTPS"
     timeout             = 5
     unhealthy_threshold = 2
   }
@@ -163,11 +165,16 @@ resource "aws_lb_target_group" "front-https" {
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.front_lb.arn
   port              = "80"
-  protocol          = "TCP"
+  protocol          = "HTTP"
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.front-http.arn
+    type             = "redirect"
+    
+    redirect {
+      port          =  "443"
+      protocol      =  "HTTPS"
+      status_code   =  "HTTP_301" 
+    }
   }
 }
 
@@ -176,7 +183,10 @@ resource "aws_lb_listener" "http" {
 resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.front_lb.arn
   port              = "443"
-  protocol          = "TCP"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = aws_acm_certificate_validation.front_cert.certificate_arn
+  depends_on = [aws_acm_certificate_validation.front_cert] 
 
   default_action {
     type = "forward"
@@ -192,26 +202,20 @@ resource "aws_lb_target_group_attachment" "front-http-group" {
   port             = 80
 }
 
-
-resource "aws_lb_target_group_attachment" "front-https-group" {
-  target_group_arn = aws_lb_target_group.front-https.arn
-  target_id        = aws_instance.Front.id
-  port             = 443
-}
-
 resource "aws_lb_target_group_attachment" "front2-http-group" {
   target_group_arn = aws_lb_target_group.front-http.arn
   target_id        = aws_instance.Front2.id
   port             = 80
 }
 
-
-resource "aws_lb_target_group_attachment" "front2-https-group" {
-  target_group_arn = aws_lb_target_group.front-https.arn
-  target_id        = aws_instance.Front2.id
-  port             = 443
+resource "aws_acm_certificate" "front_cert" {
+  domain_name = "infernum-original.duckdns.org"
+  subject_alternative_names = ["*.infernum-original.duckdns.org"]
+  validation_method = "DNS"
+  lifecycle {
+    create_before_destroy = true
+  }
 }
-
 
 /****************** Code deploy **********************************/
 
@@ -219,6 +223,14 @@ resource "aws_lb_target_group_attachment" "front2-https-group" {
 resource "aws_codedeploy_app" "frontend" {
   name = "frontend-app"
 }
+
+//aprobacion del certificado
+resource "aws_acm_certificate_validation" "front_cert" {
+  certificate_arn         = aws_acm_certificate.front_cert.arn
+  validation_record_fqdns = module.dns.cert_validation_fqdns
+}
+
+
 
 resource "aws_codedeploy_deployment_group" "frontend" {
   app_name              = aws_codedeploy_app.frontend.name
