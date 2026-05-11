@@ -5,8 +5,8 @@ resource "aws_instance" "backend" {
   vpc_security_group_ids = [aws_security_group.backend_sg.id]
   iam_instance_profile   =  aws_iam_instance_profile.lab_profile.name
   user_data              = templatefile("./scripts/backend.sh.tpl", {
-    region = var.region
-  })
+      region = var.region
+   })
 
   tags  = {
     Name = "Servidor Backend"
@@ -25,8 +25,7 @@ resource "aws_security_group" "backend_sg" {
 
 resource "aws_vpc_security_group_ingress_rule" "backend_ssh" {
   security_group_id            = aws_security_group.backend_sg.id
-  //referenced_security_group_id = aws_security_group.bastion-group.id
-  cidr_ipv4                    = "0.0.0.0/0"
+  referenced_security_group_id = aws_security_group.bastion-group.id
   from_port                    = 22
   to_port                      = 22
   ip_protocol                  = "tcp"

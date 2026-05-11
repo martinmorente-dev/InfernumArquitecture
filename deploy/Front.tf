@@ -32,12 +32,17 @@ resource "aws_vpc_security_group_ingress_rule" "allow-443-everyone" {
 // TODO Cambiar en producción referenced_security_group_id
 resource "aws_vpc_security_group_ingress_rule" "ssh" {
   security_group_id            = aws_security_group.front-group.id
-  //referenced_security_group_id = aws_security_group.bastion-group.id
-  cidr_ipv4 = "0.0.0.0/0"
+  referenced_security_group_id = aws_security_group.bastion-group.id
   ip_protocol                  = "tcp"
   from_port                    = 22
   to_port                      = 22
   description                  = "Allow port 22"
+}
+
+resource "aws_vpc_security_group_egress_rule" "allow_all" {
+  security_group_id = aws_security_group.front-group.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1"
 }
 
 /************** INSTANCE + ELASTIC IP *************************/
@@ -45,7 +50,7 @@ resource "aws_vpc_security_group_ingress_rule" "ssh" {
 resource "aws_instance" "Front" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t2.small"
-  vpc_security_group_ids = [aws_security_group.front-group.id, aws_security_group.common-group.id]
+  vpc_security_group_ids = [aws_security_group.front-group.id]
   key_name               = "vockey"
   user_data = file("./scripts/front.sh")
   tags = {
@@ -57,7 +62,7 @@ resource "aws_instance" "Front" {
 resource "aws_instance" "Front2" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t2.small"
-  vpc_security_group_ids = [aws_security_group.front-group.id, aws_security_group.common-group.id]
+  vpc_security_group_ids = [aws_security_group.front-group.id]
   key_name               = "vockey"
   user_data = file("./scripts/front.sh")
   tags = {

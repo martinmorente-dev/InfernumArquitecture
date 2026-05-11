@@ -19,12 +19,18 @@ resource "aws_vpc_security_group_ingress_rule" "allow-22-all" {
 
 }
 
+resource "aws_vpc_security_group_egress_rule" "allow_all" {
+  security_group_id = aws_security_group.bastion-group.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1"
+}
+
 /*************** INSTANCE + ELASTIC IP********************/
 
 resource "aws_instance" "Bastion" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t2.small"
-  vpc_security_group_ids = [aws_security_group.bastion-group.id, aws_security_group.common-group.id]
+  vpc_security_group_ids = [aws_security_group.bastion-group.id]
   key_name               = "vockey"
   tags = {
     Name = "Bastion"
