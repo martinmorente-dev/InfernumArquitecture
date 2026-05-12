@@ -33,7 +33,7 @@ apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin do
 usermod -aG docker ubuntu
 
 # Preparar directorios de la aplicación
-mkdir -p /home/ubuntu/Infernum-API
+mkdir -p /var/www/html/public/Infernum-API
 chown -R ubuntu:ubuntu /home/ubuntu/Infernum-API
 
 echo "Provisión del Backend completada."
