@@ -212,6 +212,12 @@ resource "aws_lb_target_group_attachment" "front2-https-group" {
 }
 /****************** Code deploy **********************************/
 
+# profile definition
+resource "aws_iam_instance_profile" "lab_profile_front" {
+  name = "FrontendProfile"
+  role = data.aws_iam_role.lab_role.name // ponerlo siempre con el data
+}
+
 
 resource "aws_codedeploy_app" "frontend" {
   name = "frontend-app"
