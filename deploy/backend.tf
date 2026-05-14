@@ -4,7 +4,7 @@ resource "aws_instance" "backend" {
   key_name               = "vockey"
   vpc_security_group_ids = [aws_security_group.backend_sg.id]
   iam_instance_profile   = aws_iam_instance_profile.lab_profile.name
-  user_data = templatefile("./scripts/backend.sh.tpl", {
+  user_data = templatefile("./scripts/backend.sh.tftpl", {
     region = var.region
   })
 

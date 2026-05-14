@@ -15,33 +15,22 @@ variable "instance_type" {
   default     = "t2.small"
 }
 
-variable "bucket_name" {
-  description = "Nombre del bucket"
-  type = string
-  default = "infernum-bucket-3"
-}
-
 /************* DATA SOURCES *******************/
 
 data "aws_ami" "ubuntu" {
   most_recent = true
-
 
   filter {
     name   = "name"
     values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
 
-
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
 
-
   owners = ["099720109477"]
-
-
 }
 
 data "aws_vpc" "vpc" {
@@ -51,11 +40,12 @@ data "aws_vpc" "vpc" {
 
 data "aws_subnets" "public" {
   filter {
-    name = "vpc-id"
-    values = [ data.aws_vpc.vpc.id ]
+    name   = "vpc-id"
+    values = [data.aws_vpc.vpc.id]
   }
 }
 
 data "aws_iam_role" "lab_role" {
   name = "LabRole"
 }
+

@@ -51,9 +51,12 @@ resource "aws_instance" "Front" {
   instance_type          = "t2.small"
   vpc_security_group_ids = [aws_security_group.front-group.id]
   key_name               = "vockey"
-  user_data              = file("./scripts/front.sh")
+  user_data = templatefile("./scripts/front.sh.tftpl", {
+    region = var.region
+  })
   tags = {
     Name = "Front"
+    web  = "Deploy"
   }
 
 }
@@ -63,7 +66,9 @@ resource "aws_instance" "Front2" {
   instance_type          = "t2.small"
   vpc_security_group_ids = [aws_security_group.front-group.id]
   key_name               = "vockey"
-  user_data              = file("./scripts/front.sh")
+  user_data = templatefile("./scripts/front.sh.tftpl", {
+    region = var.region
+  })
   tags = {
     Name = "Front2"
   }
