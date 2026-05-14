@@ -58,7 +58,7 @@ resource "aws_instance" "Front" {
     Name = "Front"
     web  = "Deploy"
   }
-
+  iam_instance_profile = aws_iam_instance_profile.lab_profile_front.name
 }
 
 resource "aws_instance" "Front2" {
@@ -69,8 +69,10 @@ resource "aws_instance" "Front2" {
   user_data = templatefile("./scripts/front.sh.tftpl", {
     region = var.region
   })
+  iam_instance_profile = aws_iam_instance_profile.lab_profile_front.name
   tags = {
     Name = "Front2"
+    web  = "Deploy"
   }
 
 }
