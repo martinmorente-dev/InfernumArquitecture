@@ -3,14 +3,14 @@ resource "aws_instance" "backend" {
   ami                    = data.aws_ami.ubuntu.id
   key_name               = "vockey"
   vpc_security_group_ids = [aws_security_group.backend_sg.id]
-  iam_instance_profile   =  aws_iam_instance_profile.lab_profile.name
-  user_data              = templatefile("./scripts/backend.sh.tpl", {
-      region = var.region
-   })
+  iam_instance_profile   = aws_iam_instance_profile.lab_profile.name
+  user_data = templatefile("./scripts/backend.sh.tpl", {
+    region = var.region
+  })
 
-  tags  = {
+  tags = {
     Name = "Servidor Backend"
-    api = "Deploy"
+    api  = "Deploy"
   }
 }
 
@@ -19,7 +19,7 @@ resource "aws_security_group" "backend_sg" {
   description = "Grupo de seguridad para el servidor Backend"
 
   tags = {
-    Name      = "Grupo de Seguridad Backend"
+    Name = "Grupo de Seguridad Backend"
   }
 }
 
@@ -76,3 +76,4 @@ resource "aws_codedeploy_deployment_group" "backend" {
     key   = "api"
   }
 }
+
