@@ -3,6 +3,11 @@ variable "domain_name" {
   default = "infernum-original.duckdns.org"
 }
 
+variable "backend_name" {
+  type = string
+  default = "backend-infernum-original.duckdns.org"
+}
+
 variable "region" {
   type    = string
   default = "us-east-1"

@@ -6,7 +6,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket  = "infernum-bucket-3"
+    bucket  = "infernum-bucket-4"
     key     = "vockey"
     region  = "us-east-1"
     encrypt = true

@@ -45,9 +45,13 @@ resource "aws_vpc_security_group_egress_rule" "backend_egress" {
   ip_protocol       = "-1"
 }
 
+resource "aws_route53_zone" "backend_zone" {
+  name = var.backend_name
+}
+
 resource "aws_route53_record" "backend" {
-  zone_id = aws_route53_zone.zone.id
-  name    = "backend.${var.domain_name}"
+  zone_id = aws_route53_zone.backend_zone.id
+  name    = var.backend_name
   type    = "A"
   ttl     = 300
   records = [aws_instance.backend.private_ip]
